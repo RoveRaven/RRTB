@@ -1,0 +1,6 @@
+#RELEASE NOTES
+
+##V 0.1.0 SNAPSHOT
+
+*added stub telegram bot
+*added SpringBoot Skeleton project
