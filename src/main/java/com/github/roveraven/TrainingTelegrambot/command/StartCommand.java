@@ -7,7 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
  */
 public class StartCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
-    private static final String START_MESSAGE = "Бот запущен";
+    static final String START_MESSAGE = "Бот запущен";
 
     public StartCommand(SendBotMessageService sendBotMessageService) {
         this.sendBotMessageService = sendBotMessageService;

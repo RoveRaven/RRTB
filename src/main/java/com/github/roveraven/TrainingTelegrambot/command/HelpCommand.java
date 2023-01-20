@@ -10,7 +10,7 @@ import static com.github.roveraven.TrainingTelegrambot.command.CommandName.*;
  */
 public class HelpCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
-    private static final String HELP_MESSAGE = String.format("""
+    static final String HELP_MESSAGE = String.format("""
                     ✨<b>Дотупные команды</b>✨
 
                     <b>Начать\\закончить работу с ботом</b>
