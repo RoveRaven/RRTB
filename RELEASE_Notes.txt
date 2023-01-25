@@ -1,11 +1,16 @@
 #RELEASE NOTES
 
-##V 0.1.0 SNAPSHOT
+##V 0.3.0-SNAPSHOT
 
-*added stub telegram bot
-*added SpringBoot Skeleton project
+*   RRTB-4: added deployment process to the project
 
 ##V 0.2.0 SNAPSHOT
 
 *added Command pattern fo r handling Telegram Bot commands
 * added unit-testing
+
+##V 0.1.0 SNAPSHOT
+
+*added stub telegram bot
+*added SpringBoot Skeleton project
+
