@@ -13,7 +13,7 @@ services:
      BOT_DB_PASSWORD: ${BOT_DB_PASSWORD}
    restart: always
  rrtb-db:
-   image: mysql:latest
+   image: mysql:8.0.31
    restart: always
    environment:
      MYSQL_USER: ${BOT_DB_USERNAME}
