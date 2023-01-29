@@ -15,6 +15,8 @@ docker-compose stop
 #export BOT_TOKEN=$2
 export BOT_NAME=test_rrtb_bot
 export BOT_TOKEN=5561589568:AAFBIobS9e0Qu6xBw_KanymKV0AcuqbQY-M
+export BOT_DB_USERNAME=prod_rrtb_db_user
+export BOT_DB_PASSWORD=password
 
 # Start new deployment
 docker-compose up --build -d
