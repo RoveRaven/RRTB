@@ -1,6 +1,8 @@
 package com.github.roveraven.TrainingTelegrambot.bot;
 
 import com.github.roveraven.TrainingTelegrambot.command.CommandContainer;
+import com.github.roveraven.TrainingTelegrambot.javarushclient.JavaRushGroupClient;
+import com.github.roveraven.TrainingTelegrambot.service.GroupSubService;
 import com.github.roveraven.TrainingTelegrambot.service.SendBotMessageServiceImpl;
 import com.github.roveraven.TrainingTelegrambot.service.TelegramUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +22,10 @@ public class RRTelegramBot extends TelegramLongPollingBot {
     private String token;
     private final CommandContainer commandContainer;
     @Autowired
-    public RRTelegramBot(TelegramUserService telegramUserService) {
-        this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this), telegramUserService);
+    public RRTelegramBot(TelegramUserService telegramUserService,
+                         JavaRushGroupClient javaRushGroupClient, GroupSubService groupSubService) {
+        this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this), telegramUserService,
+                javaRushGroupClient, groupSubService);
     }
 
     @Override

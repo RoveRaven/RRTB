@@ -7,7 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class StatCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
     private final TelegramUserService telegramUserService;
-    static final String  STAT_MESSAGE = "RRTelegramBot использует %s человек.";
+    static final String  STAT_MESSAGE = "RRTelegramBot use %s users.";
 
     public StatCommand(SendBotMessageService sendBotMessageService, TelegramUserService telegramUserService) {
         this.sendBotMessageService = sendBotMessageService;
