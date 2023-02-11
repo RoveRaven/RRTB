@@ -11,15 +11,18 @@ import static com.github.roveraven.TrainingTelegrambot.command.CommandName.*;
 public class HelpCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
     static final String HELP_MESSAGE = String.format("""
-                    ✨<b>Доступные команды</b>✨
+                    ✨<b>Actual commands</b>✨
 
-                    <b>Начать\\закончить работу с ботом</b>
-                    %s - начать работу со мной
-                    %s - приостановить работу со мной
-                    %s - узнать количество активных пользователей бота
-                    %s - получить помощь в работе со мной
+                    <b>Start\\end work with bot</b>
+                    %s - start bot
+                    %s - stop bot
+                    %s - get count of bot's active users
+                    %s - get help about bots's work
+                    %s - subscribe on group
+                    %s - list of your subscribes
                     """,
-            START.getCommandName(), STOP.getCommandName(), STAT.getCommandName(), HELP.getCommandName());
+            START.getCommandName(), STOP.getCommandName(), STAT.getCommandName(),
+            HELP.getCommandName(), ADD_GROUP_SUB.getCommandName(), LIST_GROUP_SUB_COMMAND.getCommandName());
 
     public HelpCommand(SendBotMessageService sendBotMessageService) {
         this.sendBotMessageService = sendBotMessageService;

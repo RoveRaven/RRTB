@@ -2,6 +2,11 @@
 
 ##V 0.4.0-SNAPSHOT
 
+* added ability to subscribe on groups
+* added ability to get list of user's subscribes
+
+##V 0.4.0-SNAPSHOT
+
 * RRTB-5: added repository layer
 * added integration testing
 
