@@ -51,7 +51,7 @@ public class TelegramUserRepositoryIT {
 
     }
 
-    @Sql(scripts = {"/sql/clearDbs.sql", "sql/FiveGroupSubsForUser.sql"})
+    @Sql(scripts = {"/sql/clearDbs.sql", "/sql/FiveGroupSubsForUser.sql"})
     @Test
     public void shouldProperlyGetAllGroupSubsForUser() {
         //when

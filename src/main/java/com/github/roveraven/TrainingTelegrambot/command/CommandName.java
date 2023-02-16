@@ -10,7 +10,8 @@ public enum CommandName {
     NO("/no"),
     STAT("/stat"),
     ADD_GROUP_SUB("/addgroupsub"),
-    LIST_GROUP_SUB_COMMAND("/listgroupsub");
+    LIST_GROUP_SUB("/listgroupsub"),
+    DELETE_GROUP_SUB("/deletegroupsub");
 
 
 

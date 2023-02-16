@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("Unit-level testing for ListGroupSubCommand")
 class ListGroupSubCommandTest {
     @Test
@@ -42,7 +41,7 @@ class ListGroupSubCommandTest {
 
         Update update = new Update();
         Message message = Mockito.mock(Message.class);
-        Mockito.when(message.getText()).thenReturn(LIST_GROUP_SUB_COMMAND.getCommandName());
+        Mockito.when(message.getText()).thenReturn(LIST_GROUP_SUB.getCommandName());
         Mockito.when(message.getChatId()).thenReturn(Long.valueOf(user.getChatId()));
         update.setMessage(message);
 
