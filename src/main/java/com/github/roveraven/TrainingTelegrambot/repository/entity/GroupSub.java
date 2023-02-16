@@ -9,7 +9,7 @@ import java.util.List;
 import static java.util.Objects.isNull;
 
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "users")
 @Entity
 @Table(name="group_sub")
 public class GroupSub {
@@ -33,6 +33,5 @@ public class GroupSub {
         }
         users.add(telegramUser);
     }
-
 
 }

@@ -1,6 +1,8 @@
 package com.github.roveraven.TrainingTelegrambot.repository.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,6 +12,8 @@ import java.util.List;
  */
 
 @Data
+@ToString
+@EqualsAndHashCode(exclude = "groupSubs")
 @Entity
 @Table(name = "tg_user")
 public class TelegramUser {

@@ -44,6 +44,7 @@ public class AddGroupSubCommand implements Command{
             GroupDiscussionInfo groupById = javaRushGroupClient.getGroupById(Integer.parseInt(groupId));
             if(isNull(groupById.getId())) {
                 sendGroupNotFound(chatId, groupId);
+                return;
             }
             GroupSub savedGroupSub;
             try{
@@ -61,7 +62,7 @@ public class AddGroupSubCommand implements Command{
     }
 
     private void sendGroupNotFound(String chatId, String groupId) {
-        String notFoundMessage = "There's no group wirh ID \"%s\"";
+        String notFoundMessage = "There's no group with ID \"%s\"";
         sendBotMessageService.sendMessage(chatId, String.format(notFoundMessage, groupId));
     }
 
