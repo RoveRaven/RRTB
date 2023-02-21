@@ -1,5 +1,9 @@
 #RELEASE NOTES
 
+
+##V 0.7.0-SNAPSHOT
+*  added ability to send notifications about new articles
+
 ##V 0.6.0-SNAPSHOT
 * added deleteGroupSub command
 

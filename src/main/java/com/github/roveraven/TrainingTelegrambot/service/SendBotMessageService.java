@@ -1,5 +1,7 @@
 package com.github.roveraven.TrainingTelegrambot.service;
 
+import java.util.List;
+
 /**
  * Service for sending messages via telegram-bot.
  */
@@ -12,4 +14,5 @@ public interface SendBotMessageService {
      * @param message provided message to be sent.
      */
     void sendMessage(String chatId, String message);
+    void sendMessage(String chatId, List<String> messages);
 }
