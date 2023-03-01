@@ -72,7 +72,7 @@ public class JavaRushGroupClientTest {
         //when
         Integer groupCount = groupClient.getGroupCount(groupCountRequestArgs);
         //then
-        Assertions.assertEquals(32, groupCount);
+        Assertions.assertEquals(33, groupCount);
     }
 
     @Test

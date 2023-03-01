@@ -1,5 +1,8 @@
 #RELEASE NOTES
 
+##V 0.8.0-SNAPSHOT
+* added admin statistic function
+
 
 ##V 0.7.0-SNAPSHOT
 *  added ability to send notifications about new articles
