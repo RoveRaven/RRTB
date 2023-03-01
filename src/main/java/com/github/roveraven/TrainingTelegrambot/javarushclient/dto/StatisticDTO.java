@@ -1,0 +1,17 @@
+package com.github.roveraven.TrainingTelegrambot.javarushclient.dto;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.util.List;
+/**
+ * DTO for getting bot statistics.
+ */
+@Data
+@EqualsAndHashCode
+public class StatisticDTO {
+    private final int activeUserCount;
+    private final int inactiveUserCount;
+    private final double averageGroupCountByUser;
+    private final List<GroupStatDTO> groupStatDTOs;
+}
