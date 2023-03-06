@@ -25,7 +25,7 @@ public class GroupSubServiceImpl implements GroupSubService{
     }
 
     @Override
-    public GroupSub save(String chatId, GroupDiscussionInfo groupDiscussionInfo) {
+    public GroupSub save(Long chatId, GroupDiscussionInfo groupDiscussionInfo) {
         TelegramUser telegramUser = telegramUserService.findByChatId(chatId).orElseThrow(NotFoundException::new);
         //TODO add exception handling
         GroupSub groupSub;
@@ -33,7 +33,7 @@ public class GroupSubServiceImpl implements GroupSubService{
         if (groupSubFromDB.isPresent()) {
             groupSub = groupSubFromDB.get();
             Optional<TelegramUser> user = groupSub.getUsers().stream()
-                    .filter(u-> u.getChatId().equalsIgnoreCase(chatId))
+                    .filter(u-> u.getChatId()==chatId)
                     .findFirst();
             if(user.isEmpty()) {
                 groupSub.addUser(telegramUser);
@@ -43,7 +43,7 @@ public class GroupSubServiceImpl implements GroupSubService{
             groupSub.addUser(telegramUser);
             groupSub.setId(groupDiscussionInfo.getId());
             groupSub.setTitle(groupDiscussionInfo.getTitle());
-            groupSub.setLastArticleId(javaRushGroupClient.getLastArticleId(groupDiscussionInfo.getId()));
+            groupSub.setLastPostId(javaRushGroupClient.getLastPostId(groupDiscussionInfo.getId()));
         }
         return groupSubRepository.save(groupSub);
     }

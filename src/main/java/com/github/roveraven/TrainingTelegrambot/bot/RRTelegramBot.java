@@ -49,9 +49,9 @@ public class RRTelegramBot extends TelegramLongPollingBot {
             String user = update.getMessage().getFrom().getUserName();
             if(message.startsWith(COMMAND_PREFIX)) {
                 String commandIdentifier = message.split(" ")[0].toLowerCase();
-                commandContainer.retrieveCommand(commandIdentifier, user).execute(update);
+                commandContainer.findCommand(commandIdentifier, user).execute(update);
             } else {
-                commandContainer.retrieveCommand(NO.getCommandName(), user).execute(update);
+                commandContainer.findCommand(NO.getCommandName(), user).execute(update);
             }
         }
     }

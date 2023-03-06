@@ -37,7 +37,7 @@ public class StatCommand implements Command{
                         it.getId(),
                         it.getActiveUserCount()))
                 .collect(Collectors.joining("\n"));
-        sendBotMessageService.sendMessage(update.getMessage().getChatId().toString(), String.format(STAT_MESSAGE,
+        sendBotMessageService.sendMessage(update.getMessage().getChatId(), String.format(STAT_MESSAGE,
                 statisticDTO.getActiveUserCount(),
                 statisticDTO.getInactiveUserCount(),
                 statisticDTO.getAverageGroupCountByUser(),

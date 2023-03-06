@@ -35,11 +35,11 @@ public class AddGroupSubCommand implements Command{
     @Override
     public void execute(Update update) {
         if(update.getMessage().getText().equalsIgnoreCase(ADD_GROUP_SUB.getCommandName())) {
-            sendGroupIdList(update.getMessage().getChatId().toString());
+            sendGroupIdList(update.getMessage().getChatId());
             return;
         }
         String groupId = update.getMessage().getText().split(SPACE)[1];
-        String chatId = update.getMessage().getChatId().toString();
+        Long chatId = update.getMessage().getChatId();
         if (isNumeric(groupId)) {
             GroupDiscussionInfo groupById = javaRushGroupClient.getGroupById(Integer.parseInt(groupId));
             if(isNull(groupById.getId())) {
@@ -61,12 +61,12 @@ public class AddGroupSubCommand implements Command{
         }
     }
 
-    private void sendGroupNotFound(String chatId, String groupId) {
+    private void sendGroupNotFound(Long chatId, String groupId) {
         String notFoundMessage = "There's no group with ID \"%s\"";
         sendBotMessageService.sendMessage(chatId, String.format(notFoundMessage, groupId));
     }
 
-    private void sendGroupIdList(String chatId){
+    private void sendGroupIdList(Long chatId){
         String gropIds = javaRushGroupClient.getGroupArgs(GroupRequestsArgs.builder().build())
                 .stream()
                 .map(g->String.format("%s - %s\n", g.getId(),g.getTitle()))

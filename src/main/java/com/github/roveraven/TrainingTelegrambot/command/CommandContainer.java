@@ -34,7 +34,7 @@ public class CommandContainer {
         UNKNOWN_COMMAND = new UnknownCommand(sendBotMessageService);
     }
 
-    public Command retrieveCommand(String commandIdentifier, String userName) {
+    public Command findCommand(String commandIdentifier, String userName) {
         Command command =  COMMAND_MAP.getOrDefault(commandIdentifier, UNKNOWN_COMMAND);
         if(isAdminCommand(command)) {
             if(admins.contains(userName)) {

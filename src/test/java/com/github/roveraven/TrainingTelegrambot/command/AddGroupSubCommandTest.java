@@ -35,7 +35,7 @@ class AddGroupSubCommandTest {
 
         GroupSub groupSub = new GroupSub();
         groupSub.setTitle("g1");
-        Mockito.when((groupSubService).save("1", groupDiscussionInfo)).thenReturn(groupSub);
+        Mockito.when((groupSubService).save(1L, groupDiscussionInfo)).thenReturn(groupSub);
 
         Update update = new Update();
         Message message = Mockito.mock(Message.class);
@@ -49,8 +49,8 @@ class AddGroupSubCommandTest {
         //when
         addGroupSubCommand.execute(update);
         //then
-        Mockito.verify(groupSubService).save("1", groupDiscussionInfo);
-        Mockito.verify(sendBotMessageService).sendMessage("1", resultMessage);
+        Mockito.verify(groupSubService).save(1L, groupDiscussionInfo);
+        Mockito.verify(sendBotMessageService).sendMessage(1L, resultMessage);
     }
 
     @Test
@@ -70,7 +70,7 @@ class AddGroupSubCommandTest {
         AddGroupSubCommand addGroupSubCommand = new AddGroupSubCommand(sendBotMessageService, groupClient, groupSubService);
         addGroupSubCommand.execute(update);
 
-        Mockito.verify(sendBotMessageService).sendMessage(message.getChatId().toString(), String.format(notFoundMessage,
+        Mockito.verify(sendBotMessageService).sendMessage(message.getChatId(), String.format(notFoundMessage,
                 "33"));
 
     }

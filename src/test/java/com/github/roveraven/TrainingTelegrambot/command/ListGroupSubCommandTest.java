@@ -29,7 +29,7 @@ class ListGroupSubCommandTest {
 
         TelegramUser user = new TelegramUser();
         user.setActive(true);
-        user.setChatId("1");
+        user.setChatId(1L);
         user.setGroupSubs(groupSubList);
 
         SendBotMessageService sendBotMessageService = Mockito.mock(SendBotMessageService.class);
