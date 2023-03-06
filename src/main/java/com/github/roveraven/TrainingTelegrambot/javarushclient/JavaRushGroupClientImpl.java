@@ -57,7 +57,7 @@ public class JavaRushGroupClientImpl implements JavaRushGroupClient {
                 .asObject(GroupDiscussionInfo.class)
                 .getBody();
     }
-    public Integer getLastArticleId(Integer groupSubId){
+    public Integer getLastPostId(Integer groupSubId){
         List<PostInfo> posts = Unirest.get(javaRushApiPostPath)
                 .queryString("order", "NEW")
                 .queryString("groupKid", groupSubId.toString())

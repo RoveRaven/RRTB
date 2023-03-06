@@ -22,9 +22,9 @@ public class ListGroupSubCommand implements Command{
 
     @Override
     public void execute(Update update) {
-        String chatId = update.getMessage().getChatId().toString();
+        Long chatId = update.getMessage().getChatId();
         //todo add exception handling
-        TelegramUser user = telegramUserService.findByChatId(update.getMessage().getChatId().toString())
+        TelegramUser user = telegramUserService.findByChatId(update.getMessage().getChatId())
                 .orElseThrow(NotFoundException::new);
         String message = "Your active subscribes on groups: \n\n";
         String groups = user.getGroupSubs().stream()

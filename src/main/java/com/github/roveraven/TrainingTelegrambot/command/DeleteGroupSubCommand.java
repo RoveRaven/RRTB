@@ -28,7 +28,7 @@ public class DeleteGroupSubCommand implements   Command{
     @Override
     public void execute(Update update) {
         String text = update.getMessage().getText();
-        String chatId = update.getMessage().getChatId().toString();
+        Long chatId = update.getMessage().getChatId();
         if(text.split(" ").length==1) {
             sendBotMessageService.sendMessage(chatId, "To unsubscribe from group, please, send " +
                     "command like \"\\deletegroupsub N\", where N - group ID");

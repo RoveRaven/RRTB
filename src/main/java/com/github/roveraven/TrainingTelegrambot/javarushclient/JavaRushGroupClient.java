@@ -40,7 +40,7 @@ public interface JavaRushGroupClient {
      */
     GroupDiscussionInfo getGroupById(Integer id);
 
-    public Integer getLastArticleId(Integer groupSubId);
+    public Integer getLastPostId(Integer groupSubId);
 
 
 

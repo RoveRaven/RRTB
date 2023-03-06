@@ -20,7 +20,7 @@ public void init() {
 @Test
 public void ShouldProperlySendMessage() throws TelegramApiException {
     //given
-    String chatId = "test_chat_id";
+    Long chatId = 1347567L;
     String message = "test_message";
 
     SendMessage sendMessage = new SendMessage();

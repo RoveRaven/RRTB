@@ -42,12 +42,12 @@ class DeleteGroupSubCommandTest {
         Mockito.when(message.getChatId()).thenReturn(chatId);
         update.setMessage(message);
 
-        Mockito.when(telegramUserService.findByChatId(chatId.toString())).thenReturn(Optional.empty());
+        Mockito.when(telegramUserService.findByChatId(chatId)).thenReturn(Optional.empty());
         String expectedMessage = "Group with this Id not found";
 
         command.execute(update);
         Mockito.verify(groupSubService).findById(groupId);
-        Mockito.verify(sendBotMessageService).sendMessage(chatId.toString(), expectedMessage);
+        Mockito.verify(sendBotMessageService).sendMessage(chatId, expectedMessage);
     }
 
     @Test
@@ -62,12 +62,12 @@ class DeleteGroupSubCommandTest {
         List<TelegramUser> users = new ArrayList<>();
         TelegramUser user1 = new TelegramUser();
         user1.setActive(true);
-        user1.setChatId(String.valueOf(17687L));
+        user1.setChatId(17687L);
         user1.setGroupSubs(new ArrayList<>());
         users.add(user1);
         TelegramUser user2 = new TelegramUser();
         user2.setActive(true);
-        user2.setChatId(String.valueOf(17L));
+        user2.setChatId(17L);
         user2.setGroupSubs(new ArrayList<>());
         users.add(user2);
 
@@ -77,7 +77,7 @@ class DeleteGroupSubCommandTest {
         groupSub.setUsers(users);
 
         Mockito.when(groupSubService.findById(8)).thenReturn(Optional.of(groupSub));
-        Mockito.when(telegramUserService.findByChatId("17687")).thenReturn(Optional.of(user1));
+        Mockito.when(telegramUserService.findByChatId(17687L)).thenReturn(Optional.of(user1));
         String completeMessage = String.format("""
                         You successfully unsubscribe from group: \n\n
                         %s  -  %s""", groupSub.getId(), groupSub.getTitle());
@@ -86,7 +86,7 @@ class DeleteGroupSubCommandTest {
         //then
         users.remove(user1);
         Mockito.verify(groupSubService).save(groupSub);
-        Mockito.verify(sendBotMessageService).sendMessage(message.getChatId().toString(), completeMessage );
+        Mockito.verify(sendBotMessageService).sendMessage(message.getChatId(), completeMessage );
     }
 
     @Test
@@ -100,7 +100,7 @@ class DeleteGroupSubCommandTest {
 
         command.execute(update);
 
-        Mockito.verify(sendBotMessageService).sendMessage(message.getChatId().toString(), "To unsubscribe from group, please, send " +
+        Mockito.verify(sendBotMessageService).sendMessage(message.getChatId(), "To unsubscribe from group, please, send " +
                 "command like \"\\deletegroupsub N\", where N - group ID");
     }
 
@@ -114,6 +114,6 @@ class DeleteGroupSubCommandTest {
 
         command.execute(update);
 
-        Mockito.verify(sendBotMessageService).sendMessage(message.getChatId().toString(), "Wrong format of ID. Id must be integer and positive number");
+        Mockito.verify(sendBotMessageService).sendMessage(message.getChatId(), "Wrong format of ID. Id must be integer and positive number");
     }
 }

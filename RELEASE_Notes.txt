@@ -1,5 +1,9 @@
 #RELEASE NOTES
 
+##V 1.0.0
+* code refactored
+* refactored the database, optimised work with chat-user id
+
 ##V 0.8.0-SNAPSHOT
 * added admin statistic function
 
