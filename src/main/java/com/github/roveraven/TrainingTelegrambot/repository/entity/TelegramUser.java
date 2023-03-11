@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 @Data
-@ToString
+@ToString(exclude = "groupSubs")
 @EqualsAndHashCode(exclude = "groupSubs")
 @Entity
 @Table(name = "tg_user")

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.ws.rs.NotFoundException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -17,26 +18,43 @@ public class GroupSubServiceImpl implements GroupSubService{
     private final GroupSubRepository groupSubRepository;
     private final TelegramUserService telegramUserService;
     private final JavaRushGroupClient javaRushGroupClient;
+
     @Autowired
     public GroupSubServiceImpl(GroupSubRepository groupSubRepository, TelegramUserService telegramUserService, JavaRushGroupClient javaRushGroupClient) {
         this.groupSubRepository = groupSubRepository;
         this.telegramUserService = telegramUserService;
         this.javaRushGroupClient = javaRushGroupClient;
+
     }
 
     @Override
     public GroupSub save(Long chatId, GroupDiscussionInfo groupDiscussionInfo) {
         TelegramUser telegramUser = telegramUserService.findByChatId(chatId).orElseThrow(NotFoundException::new);
+        if(!telegramUser.isActive()) {
+            throw  new NotFoundException("""
+                                            Ooops... something goes wrong. 
+                                            Probably, you didn't activate the bot. 
+                                            Please, try to execute the \\\"start\" command
+                                            """);
+        }
         //TODO add exception handling
         GroupSub groupSub;
         Optional<GroupSub> groupSubFromDB = groupSubRepository.findById(groupDiscussionInfo.getId());
         if (groupSubFromDB.isPresent()) {
             groupSub = groupSubFromDB.get();
             Optional<TelegramUser> user = groupSub.getUsers().stream()
-                    .filter(u-> u.getChatId()==chatId)
+                    .filter(u-> Objects.equals(u.getChatId(), chatId))
                     .findFirst();
             if(user.isEmpty()) {
                 groupSub.addUser(telegramUser);
+            } else if(Objects.equals(user.get().getChatId(), chatId) && user.get().isActive()){
+                throw new NotFoundException("You have already subscribed on this group");
+            } else if(Objects.equals(user.get().getChatId(), chatId) && !user.get().isActive()){
+                throw new NotFoundException("""
+                                                Ooops... something goes wrong. 
+                                                Probably, you didn't activate the bot. 
+                                                Please, try to execute the \\\"start\\\" command
+                                                """);
             }
         } else {
             groupSub = new GroupSub();
