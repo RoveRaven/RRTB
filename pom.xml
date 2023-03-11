@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.github.roveraven</groupId>
 	<artifactId>Training-Telegrambot</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>Training-Telegrambot</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>

@@ -1,5 +1,10 @@
 #RELEASE NOTES
 
+
+##V 1.0.1
+* Cleared all test bot information from configs
+* Fixed some bugs in AddGroupSub command
+
 ##V 1.0.0
 * code refactored
 * refactored the database, optimised work with chat-user id

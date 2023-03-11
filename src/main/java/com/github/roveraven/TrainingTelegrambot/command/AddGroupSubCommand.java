@@ -52,7 +52,7 @@ public class AddGroupSubCommand implements Command{
                 sendBotMessageService.sendMessage(chatId, String.format("You subscribed to group: %s", savedGroupSub.getTitle()));
             }
             catch (NotFoundException e) {
-                sendBotMessageService.sendMessage(chatId, "Ooops... something goes wrong. Probably, you didn't activate the bot. Please, try to execute the \"start\" command");
+                    sendBotMessageService.sendMessage(chatId, e.getMessage());
             }
 
         }

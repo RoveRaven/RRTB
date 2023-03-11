@@ -8,8 +8,11 @@ Required software:
 - docker
 - docker-compose
 
-to deploy application, switch to needed branch and run bash script:
+to deploy application, uncomment strings 13-15, switch to needed branch and run bash script:
 
-$ bash start.sh ${bot_username} ${bot_token}
+$ bash start.sh ${bot_username} ${bot_token} ${admins_list}
+
+
+or  wright these parameters directly in the script and run it;
 
 That's all.

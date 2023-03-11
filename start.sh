@@ -13,8 +13,10 @@ docker-compose stop
 # Add environment variables
 #export BOT_NAME=$1
 #export BOT_TOKEN=$2
-export BOT_NAME=test_rrtb_bot
-export BOT_TOKEN=5561589568:AAFBIobS9e0Qu6xBw_KanymKV0AcuqbQY-M
+#export ADMINS=$3
+export BOT_NAME=write_your_bot_name
+export BOT_TOKEN=write_your_bot_token
+export ADMINS=write_admins_usernames
 export BOT_DB_USERNAME=prod_rrtb_db_user
 export BOT_DB_PASSWORD=password
 

@@ -2,6 +2,7 @@ package com.github.roveraven.TrainingTelegrambot.repository.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import static java.util.Objects.isNull;
 
 @Data
 @EqualsAndHashCode(exclude = "users")
+@ToString(exclude = "users")
 @Entity
 @Table(name="group_sub")
 public class GroupSub {
