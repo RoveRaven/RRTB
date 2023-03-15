@@ -1,5 +1,6 @@
 package com.github.roveraven.TrainingTelegrambot.service;
 
+import com.github.roveraven.TrainingTelegrambot.command.TestUtils;
 import com.github.roveraven.TrainingTelegrambot.javarushclient.JavaRushGroupClient;
 import com.github.roveraven.TrainingTelegrambot.javarushclient.dto.GroupDiscussionInfo;
 import com.github.roveraven.TrainingTelegrambot.repository.GroupSubRepository;
@@ -27,9 +28,7 @@ public class GroupSubServiceTest {
         javaRushGroupClient = Mockito.mock(JavaRushGroupClient.class);
         groupSubService = new GroupSubServiceImpl(groupSubRepository, telegramUserService, javaRushGroupClient);
 
-        newUser = new TelegramUser();
-        newUser.setChatId(CHAT_ID);
-        newUser.setActive(true);
+        newUser = TestUtils.getUser(CHAT_ID, true, null);
 
         Mockito.when(telegramUserService.findByChatId(CHAT_ID)).thenReturn(Optional.of(newUser));
     }
@@ -41,9 +40,7 @@ public class GroupSubServiceTest {
         groupDiscussionInfo.setId(1);
         groupDiscussionInfo.setTitle("g1");
 
-        GroupSub expectedGroupSub = new GroupSub();
-        expectedGroupSub.setId(groupDiscussionInfo.getId());
-        expectedGroupSub.setTitle(groupDiscussionInfo.getTitle());
+        GroupSub expectedGroupSub = TestUtils.getGroupSub(groupDiscussionInfo.getId(), groupDiscussionInfo.getTitle());
         expectedGroupSub.setLastPostId(0);
         expectedGroupSub.addUser(newUser);
         //when
@@ -55,24 +52,18 @@ public class GroupSubServiceTest {
     @Test
     public void shouldProperlyAddUserToExistingGroup() {
     //given
-        TelegramUser oldTelegramUser = new TelegramUser();
-        oldTelegramUser.setChatId(2L);
-        oldTelegramUser.setActive(true);
+        TelegramUser oldTelegramUser = TestUtils.getUser(2L, true, null);
 
         GroupDiscussionInfo groupDiscussionInfo = new GroupDiscussionInfo();
         groupDiscussionInfo.setId(1);
         groupDiscussionInfo.setTitle("g1");
 
-        GroupSub groupFromDB = new GroupSub();
-        groupFromDB.setId(groupDiscussionInfo.getId());
-        groupFromDB.setTitle(groupDiscussionInfo.getTitle());
+        GroupSub groupFromDB = TestUtils.getGroupSub(groupDiscussionInfo.getId(), groupDiscussionInfo.getTitle());
         groupFromDB.addUser(oldTelegramUser);
 
         Mockito.when(groupSubRepository.findById(groupDiscussionInfo.getId())).thenReturn(Optional.of(groupFromDB));
 
-        GroupSub expectedGroupSub = new GroupSub();
-        expectedGroupSub.setId(groupDiscussionInfo.getId());
-        expectedGroupSub.setTitle(groupDiscussionInfo.getTitle());
+        GroupSub expectedGroupSub = TestUtils.getGroupSub(groupDiscussionInfo.getId(), groupDiscussionInfo.getTitle());
         expectedGroupSub.addUser(oldTelegramUser);
         expectedGroupSub.addUser(newUser);
         //when

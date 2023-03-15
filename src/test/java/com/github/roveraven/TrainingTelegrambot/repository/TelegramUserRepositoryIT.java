@@ -1,5 +1,6 @@
 package com.github.roveraven.TrainingTelegrambot.repository;
 
+import com.github.roveraven.TrainingTelegrambot.command.TestUtils;
 import com.github.roveraven.TrainingTelegrambot.repository.entity.GroupSub;
 import com.github.roveraven.TrainingTelegrambot.repository.entity.TelegramUser;
 import org.junit.jupiter.api.Assertions;
@@ -38,9 +39,7 @@ public class TelegramUserRepositoryIT {
     @Test
     public void shouldProperlySaveTelegramUser() {
         //when
-        TelegramUser user = new TelegramUser();
-        user.setActive(true);
-        user.setChatId(86538653787L);
+        TelegramUser user = TestUtils.getUser(86538653787L, true, null);
         telegramUserRepository.save(user);
 
         //then

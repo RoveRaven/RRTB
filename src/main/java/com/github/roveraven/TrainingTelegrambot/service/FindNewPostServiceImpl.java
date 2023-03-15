@@ -15,20 +15,20 @@ import java.util.stream.Collectors;
 public class FindNewPostServiceImpl implements FindNewPostService {
     private final String JAVARUSH_API_FORMAT = "https://javarush.com/api/1.0/rest/posts/%s";
     private final GroupSubService groupSubService;
-    private final JavaRushPostClient postClient;
+    private final JavaRushPostClient javaRushPostClient;
     private final SendBotMessageService sendBotMessageService;
 
     @Autowired
     public FindNewPostServiceImpl(GroupSubService groupSubService, JavaRushPostClient postClient, SendBotMessageService sendBotMessageService) {
         this.groupSubService = groupSubService;
-        this.postClient = postClient;
+        this.javaRushPostClient = postClient;
         this.sendBotMessageService = sendBotMessageService;
     }
 
     @Override
     public void findNewPosts() {
         groupSubService.findAll().forEach(groupSub -> {
-            List<PostInfo> newPosts = postClient.findNewPosts(groupSub.getId(), groupSub.getLastPostId());
+            List<PostInfo> newPosts = javaRushPostClient.findNewPosts(groupSub.getId(), groupSub.getLastPostId());
             setNewLastPostId(groupSub, newPosts);
             notifySubscribersAboutNewPosts(groupSub, newPosts);
         });

@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.ArrayList;
@@ -34,18 +33,16 @@ class DeleteGroupSubCommandTest {
 
     @Test
     public void shouldProperlyReactOnUnexistingId() {
+        //given
         Long chatId = 17687L;
         Integer groupId = 8;
-        Update update = new Update();
-        Message message = Mockito.mock(Message.class);
-        Mockito.when(message.getText()).thenReturn(DELETE_GROUP_SUB.getCommandName()+ " 8");
-        Mockito.when(message.getChatId()).thenReturn(chatId);
-        update.setMessage(message);
+        Update update = TestUtils.getUpdate(DELETE_GROUP_SUB.getCommandName()+ " 8", chatId);
 
         Mockito.when(telegramUserService.findByChatId(chatId)).thenReturn(Optional.empty());
         String expectedMessage = "Group with this Id not found";
-
+        //when
         command.execute(update);
+        //then
         Mockito.verify(groupSubService).findById(groupId);
         Mockito.verify(sendBotMessageService).sendMessage(chatId, expectedMessage);
     }
@@ -53,27 +50,15 @@ class DeleteGroupSubCommandTest {
     @Test
     public void shouldProperlyDeleteGroupSub(){
         //given
-        Update update = new Update();
-        Message message = Mockito.mock(Message.class);
-        Mockito.when(message.getText()).thenReturn(DELETE_GROUP_SUB.getCommandName()+ " 8");
-        Mockito.when(message.getChatId()).thenReturn(17687L);
-        update.setMessage(message);
+        Update update = TestUtils.getUpdate(DELETE_GROUP_SUB.getCommandName()+ " 8", 17687L);
 
         List<TelegramUser> users = new ArrayList<>();
-        TelegramUser user1 = new TelegramUser();
-        user1.setActive(true);
-        user1.setChatId(17687L);
-        user1.setGroupSubs(new ArrayList<>());
+        TelegramUser user1 = TestUtils.getUser(17687L, true, new ArrayList<>());
         users.add(user1);
-        TelegramUser user2 = new TelegramUser();
-        user2.setActive(true);
-        user2.setChatId(17L);
-        user2.setGroupSubs(new ArrayList<>());
+        TelegramUser user2 = TestUtils.getUser(17L, true, new ArrayList<>());
         users.add(user2);
 
-        GroupSub groupSub = new GroupSub();
-        groupSub.setTitle("g234");
-        groupSub.setId(8);
+        GroupSub groupSub = TestUtils.getGroupSub(8, "g234");
         groupSub.setUsers(users);
 
         Mockito.when(groupSubService.findById(8)).thenReturn(Optional.of(groupSub));
@@ -86,34 +71,29 @@ class DeleteGroupSubCommandTest {
         //then
         users.remove(user1);
         Mockito.verify(groupSubService).save(groupSub);
-        Mockito.verify(sendBotMessageService).sendMessage(message.getChatId(), completeMessage );
+        Mockito.verify(sendBotMessageService).sendMessage(update.getMessage().getChatId(), completeMessage );
     }
 
     @Test
     public void shouldProperlyReactOnCommandWithoutId() {
         //given
-        Update update = new Update();
-        Message message = Mockito.mock(Message.class);
-        Mockito.when(message.getText()).thenReturn(DELETE_GROUP_SUB.getCommandName());
-        Mockito.when(message.getChatId()).thenReturn(17687L);
-        update.setMessage(message);
-
+        Update update = TestUtils.getUpdate(DELETE_GROUP_SUB.getCommandName(), 17687L);
+        //when
         command.execute(update);
-
-        Mockito.verify(sendBotMessageService).sendMessage(message.getChatId(), "To unsubscribe from group, please, send " +
+        //then
+        Mockito.verify(sendBotMessageService).sendMessage(update.getMessage().getChatId(),
+                "To unsubscribe from group, please, send " +
                 "command like \"\\deletegroupsub N\", where N - group ID");
     }
 
     @Test
     public void shouldProperlyReactOnInvalidFormatId(){
-        Update update = new Update();
-        Message message = Mockito.mock(Message.class);
-        Mockito.when(message.getText()).thenReturn(DELETE_GROUP_SUB.getCommandName()+ " -2a");
-        Mockito.when(message.getChatId()).thenReturn(17687L);
-        update.setMessage(message);
-
+        //given
+        Update update = TestUtils.getUpdate(DELETE_GROUP_SUB.getCommandName()+ " -2a", 17687L);
+        //when
         command.execute(update);
-
-        Mockito.verify(sendBotMessageService).sendMessage(message.getChatId(), "Wrong format of ID. Id must be integer and positive number");
+        //then
+        Mockito.verify(sendBotMessageService).sendMessage(update.getMessage().getChatId(),
+                "Wrong format of ID. Id must be integer and positive number");
     }
 }

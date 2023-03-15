@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Collections;
@@ -39,11 +38,7 @@ class StatCommandTest{
                 2.5, Collections.singletonList(groupStatDTO));
         Mockito.when(statisticService.countBotStatistic()).thenReturn(statisticDTO);
 
-        Update update = new Update();
-        Message message = Mockito.mock(Message.class);
-        Mockito.when(message.getChatId()).thenReturn(chatId);
-        Mockito.when(message.getText()).thenReturn(STAT.getCommandName());
-        update.setMessage(message);
+        Update update = TestUtils.getUpdate(STAT.getCommandName(), chatId);
         //when
         statCommand.execute(update);
         //then

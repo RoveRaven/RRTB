@@ -1,5 +1,6 @@
 package com.github.roveraven.TrainingTelegrambot.service;
 
+import com.github.roveraven.TrainingTelegrambot.command.TestUtils;
 import com.github.roveraven.TrainingTelegrambot.javarushclient.dto.GroupStatDTO;
 import com.github.roveraven.TrainingTelegrambot.javarushclient.dto.StatisticDTO;
 import com.github.roveraven.TrainingTelegrambot.repository.entity.GroupSub;
@@ -11,8 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.util.Collections;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Unit-level testing for StatisticsService")
 class StatisticServiceTest {
@@ -34,9 +33,7 @@ class StatisticServiceTest {
         TelegramUser activeUser = new TelegramUser();
         activeUser.setGroupSubs(Collections.singletonList(new GroupSub()));
         Mockito.when(telegramUserService.findAllActiveUsers()).thenReturn(Collections.singletonList(activeUser));
-        GroupSub groupSub = new GroupSub();
-        groupSub.setId(1);
-        groupSub.setTitle("g1");
+        GroupSub groupSub = TestUtils.getGroupSub(1, "g1");
         groupSub.setUsers(Collections.singletonList(new TelegramUser()));
         Mockito.when(groupSubService.findAll()).thenReturn(Collections.singletonList(groupSub));
         //when
