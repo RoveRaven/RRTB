@@ -8,8 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 
 @DisplayName("Unit-level testing for CommandContainerTest")
@@ -24,17 +24,29 @@ class CommandContainerTest {
         GroupSubService groupSubService = Mockito.mock(GroupSubService.class);
         StatisticService statisticService = new StatisticServiceImpl(groupSubService, telegramUserService);
         commandContainer = new CommandContainer(sendBotMessageService, telegramUserService,
-                javaRushGroupClient, groupSubService, statisticService, new ArrayList<String>());
+                javaRushGroupClient, groupSubService, statisticService, Collections.singletonList("admin"));
     }
 
-    //@Ignore
-    //@Test
-    public void shouldGetAllTheExistingCommands(){
+    @Test
+    public void shouldGetAllTheExistingCommandsForAdmin(){
         //when-then
         Arrays.stream(CommandName.values())
                 .forEach(commandName -> {
-                    Command command = commandContainer.findCommand(commandName.getCommandName(), "j");
+                    Command command = commandContainer.findCommand(commandName.getCommandName(), "admin");
                     Assertions.assertNotEquals(UnknownCommand.class, command.getClass());
+                });
+    }
+    @Test
+    public void shouldGetAllCommandsForNotAdminUsers(){
+        //when-then
+        Arrays.stream(CommandName.values())
+                .forEach(commandName -> {
+                    Command command = commandContainer.findCommand(commandName.getCommandName(), "user");
+                    if(commandName==CommandName.STAT|| commandName==CommandName.ADMIN_HELP) {
+                        Assertions.assertEquals(UnknownCommand.class, command.getClass());
+                    } else {
+                        Assertions.assertNotEquals(UnknownCommand.class, command.getClass());
+                    }
                 });
     }
 

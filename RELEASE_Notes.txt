@@ -1,5 +1,7 @@
 #RELEASE NOTES
 
+##V 1.0.2
+* Extended test covering
 
 ##V 1.0.1
 * Cleared all test bot information from configs
