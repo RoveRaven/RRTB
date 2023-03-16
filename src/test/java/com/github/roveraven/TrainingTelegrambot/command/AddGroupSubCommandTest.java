@@ -12,33 +12,33 @@ import org.mockito.Mockito;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import static com.github.roveraven.TrainingTelegrambot.command.CommandName.ADD_GROUP_SUB;
+import static com.github.roveraven.TrainingTelegrambot.command.TestUtils.*;
+import static com.github.roveraven.TrainingTelegrambot.command.CommandUtils.*;
 @DisplayName("Unit-level testing for AddGroupSubCommand")
 class AddGroupSubCommandTest {
     SendBotMessageService sendBotMessageService;
     GroupSubService groupSubService;
-    JavaRushGroupClient groupClient;
+    JavaRushGroupClient javaRushGroupClient;
     AddGroupSubCommand addGroupSubCommand;
     @BeforeEach
     public void init() {
         sendBotMessageService = Mockito.mock(SendBotMessageService.class);
         groupSubService = Mockito.mock(GroupSubService.class);
-        groupClient = Mockito.mock(JavaRushGroupClient.class);
-        addGroupSubCommand = new AddGroupSubCommand(sendBotMessageService, groupClient, groupSubService);
+        javaRushGroupClient = Mockito.mock(JavaRushGroupClient.class);
+        addGroupSubCommand = new AddGroupSubCommand(sendBotMessageService, javaRushGroupClient, groupSubService);
 
     }
     @Test
     public void shouldProperlyAddGroupWithCorrectNumber() {
         //given
-        GroupDiscussionInfo groupDiscussionInfo = new GroupDiscussionInfo();
-        groupDiscussionInfo.setTitle("g1");
-        groupDiscussionInfo.setId(8);
-        Mockito.when(groupClient.getGroupById(8)).thenReturn(groupDiscussionInfo);
+        GroupDiscussionInfo groupDiscussionInfo = getGroupDiscussionInfo(8, "g1");
+        Mockito.when(javaRushGroupClient.getGroupById(8)).thenReturn(groupDiscussionInfo);
 
-        GroupSub groupSub = TestUtils.getGroupSub(8, "g1");
+        GroupSub groupSub = getGroupSub(8, "g1");
 
         Mockito.when((groupSubService).save(1L, groupDiscussionInfo)).thenReturn(groupSub);
 
-        Update update = TestUtils.getUpdate(ADD_GROUP_SUB.getCommandName()+ " 8", 1L);
+        Update update = getUpdate(ADD_GROUP_SUB.getCommandName()+ " 8", 1L);
         String resultMessage = "You subscribed to group: g1";
         //when
         addGroupSubCommand.execute(update);
@@ -54,13 +54,11 @@ class AddGroupSubCommandTest {
 
         Update update = TestUtils.getUpdate(ADD_GROUP_SUB.getCommandName()+ " 33", 349L);
 
-        GroupDiscussionInfo groupDiscussionInfo = new GroupDiscussionInfo();
-        groupDiscussionInfo.setTitle("g1");
-        Mockito.when(groupClient.getGroupById(33)).thenReturn(groupDiscussionInfo);
+        Mockito.when(javaRushGroupClient.getGroupById(33)).thenReturn(null);
         //when
         addGroupSubCommand.execute(update);
         //then
-        Mockito.verify(sendBotMessageService).sendMessage(update.getMessage().getChatId(), String.format(notFoundMessage,
+        Mockito.verify(sendBotMessageService).sendMessage(getChatId(update), String.format(notFoundMessage,
                 "33"));
     }
 
@@ -73,11 +71,11 @@ class AddGroupSubCommandTest {
                 Full list of groups:\n
                 GroupID - GroupName\n
                 """;
-        Update update = TestUtils.getUpdate(ADD_GROUP_SUB.getCommandName(), 1L);
+        Update update = getUpdate(ADD_GROUP_SUB.getCommandName(), 1L);
         //when
         addGroupSubCommand.execute(update);
         //then
-        Mockito.verify(sendBotMessageService).sendMessage(update.getMessage().getChatId(),
+        Mockito.verify(sendBotMessageService).sendMessage(getChatId(update),
                 message);
     }
 }

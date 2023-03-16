@@ -15,6 +15,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.github.roveraven.TrainingTelegrambot.command.CommandName.LIST_GROUP_SUB;
+import static com.github.roveraven.TrainingTelegrambot.command.TestUtils.*;
 
 @DisplayName("Unit-level testing for ListGroupSubCommand")
 class ListGroupSubCommandTest {
@@ -22,12 +23,12 @@ class ListGroupSubCommandTest {
     public void shouldProperlyGetGroupSubList() {
         //given
         List<GroupSub> groupSubList = new ArrayList<>();
-        groupSubList.add(TestUtils.getGroupSub(1, "Group1"));
-        groupSubList.add(TestUtils.getGroupSub(2, "Group2"));
-        groupSubList.add(TestUtils.getGroupSub(3, "Group3"));
-        groupSubList.add(TestUtils.getGroupSub(4, "Group4"));
+        groupSubList.add(getGroupSub(1, "Group1"));
+        groupSubList.add(getGroupSub(2, "Group2"));
+        groupSubList.add(getGroupSub(3, "Group3"));
+        groupSubList.add(getGroupSub(4, "Group4"));
 
-        TelegramUser user = TestUtils.getUser(1L, true, groupSubList);
+        TelegramUser user = getUser(1L, true, groupSubList);
 
         SendBotMessageService sendBotMessageService = Mockito.mock(SendBotMessageService.class);
         TelegramUserService telegramUserService = Mockito.mock(TelegramUserService.class);
@@ -36,7 +37,7 @@ class ListGroupSubCommandTest {
 
         ListGroupSubCommand listGroupSubCommand = new ListGroupSubCommand(telegramUserService, sendBotMessageService);
 
-        Update update = TestUtils.getUpdate(LIST_GROUP_SUB.getCommandName(), user.getChatId());
+        Update update = getUpdate(LIST_GROUP_SUB.getCommandName(), user.getChatId());
 
         String groups = "Your active subscribes on groups: \n\n" +
                 user.getGroupSubs().stream()

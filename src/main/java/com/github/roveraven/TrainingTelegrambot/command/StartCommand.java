@@ -4,6 +4,8 @@ import com.github.roveraven.TrainingTelegrambot.repository.entity.TelegramUser;
 import com.github.roveraven.TrainingTelegrambot.service.SendBotMessageService;
 import com.github.roveraven.TrainingTelegrambot.service.TelegramUserService;
 import org.telegram.telegrambots.meta.api.objects.Update;
+
+import static com.github.roveraven.TrainingTelegrambot.command.CommandUtils.*;
 /**
  * * Start {@link Command}.
  */
@@ -21,7 +23,7 @@ public class StartCommand implements Command{
 
     @Override
     public void execute(Update update) {
-        Long chatId = update.getMessage().getChatId();
+        Long chatId = getChatId(update);
 
         telegramUserService.findByChatId(chatId).ifPresentOrElse(
                 user -> {

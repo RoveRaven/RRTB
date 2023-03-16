@@ -2,6 +2,8 @@ package com.github.roveraven.TrainingTelegrambot.command;
 
 import com.github.roveraven.TrainingTelegrambot.service.SendBotMessageService;
 import org.telegram.telegrambots.meta.api.objects.Update;
+
+import static com.github.roveraven.TrainingTelegrambot.command.CommandUtils.*;
 /**
  * * Stop {@link Command}.
  */
@@ -16,6 +18,6 @@ public class NoCommand implements Command{
 
     @Override
     public void execute(Update update) {
-        sendBotMessageService.sendMessage(update.getMessage().getChatId(), NO_MESSAGE);
+        sendBotMessageService.sendMessage(getChatId(update), NO_MESSAGE);
     }
 }
