@@ -15,7 +15,7 @@ import static com.github.roveraven.TrainingTelegrambot.command.CommandName.ADD_G
 import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.apache.commons.lang3.StringUtils.isNumeric;
-
+import static com.github.roveraven.TrainingTelegrambot.command.CommandUtils.*;
 
 /**
  * Add Group subscription {@link Command}.
@@ -34,15 +34,15 @@ public class AddGroupSubCommand implements Command{
 
     @Override
     public void execute(Update update) {
-        if(update.getMessage().getText().equalsIgnoreCase(ADD_GROUP_SUB.getCommandName())) {
-            sendGroupIdList(update.getMessage().getChatId());
+        if(getText(update).equalsIgnoreCase(ADD_GROUP_SUB.getCommandName())) {
+            sendGroupIdList(getChatId(update));
             return;
         }
-        String groupId = update.getMessage().getText().split(SPACE)[1];
-        Long chatId = update.getMessage().getChatId();
+        String groupId = getText(update).split(SPACE)[1];
+        Long chatId = getChatId(update);
         if (isNumeric(groupId)) {
             GroupDiscussionInfo groupById = javaRushGroupClient.getGroupById(Integer.parseInt(groupId));
-            if(isNull(groupById.getId())) {
+            if(isNull(groupById)||isNull(groupById.getId())) {
                 sendGroupNotFound(chatId, groupId);
                 return;
             }

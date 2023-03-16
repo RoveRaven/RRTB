@@ -1,5 +1,6 @@
 package com.github.roveraven.TrainingTelegrambot.command;
 
+import com.github.roveraven.TrainingTelegrambot.javarushclient.dto.GroupDiscussionInfo;
 import com.github.roveraven.TrainingTelegrambot.repository.entity.GroupSub;
 import com.github.roveraven.TrainingTelegrambot.repository.entity.TelegramUser;
 import org.mockito.Mockito;
@@ -30,6 +31,13 @@ public class TestUtils {
         groupSub.setId(id);
         groupSub.setTitle(title);
         return  groupSub;
+    }
+
+    public static GroupDiscussionInfo getGroupDiscussionInfo(int id, String title) {
+        GroupDiscussionInfo groupDiscussionInfo = new GroupDiscussionInfo();
+        groupDiscussionInfo.setId(id);
+        groupDiscussionInfo.setTitle(title);
+        return groupDiscussionInfo;
     }
 
 }

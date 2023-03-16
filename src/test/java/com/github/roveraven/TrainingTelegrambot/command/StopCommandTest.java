@@ -12,6 +12,8 @@ import java.util.Optional;
 
 import static com.github.roveraven.TrainingTelegrambot.command.CommandName.STOP;
 import static com.github.roveraven.TrainingTelegrambot.command.StopCommand.STOP_MESSAGE;
+import static com.github.roveraven.TrainingTelegrambot.command.TestUtils.*;
+
 @DisplayName("Unit-level testing for StopCommand")
 class StopCommandTest extends AbstractCommandTest{
 
@@ -33,11 +35,11 @@ class StopCommandTest extends AbstractCommandTest{
     @Test
     public void shouldSetExistingUserInActive() {
         //given
-        TelegramUser user = TestUtils.getUser(1L, true, new ArrayList<>());
+        TelegramUser user = getUser(1L, true, new ArrayList<>());
         Mockito.when(telegramUserService.findByChatId(1L)).thenReturn(Optional.of(user));
         Command command = new StopCommand(sendBotMessageService, telegramUserService);
 
-        Update update = TestUtils.getUpdate(STOP.getCommandName(), 1L);
+        Update update = getUpdate(STOP.getCommandName(), 1L);
         //when
         command.execute(update);
         //then

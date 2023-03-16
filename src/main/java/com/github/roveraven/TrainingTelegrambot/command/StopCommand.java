@@ -3,6 +3,8 @@ package com.github.roveraven.TrainingTelegrambot.command;
 import com.github.roveraven.TrainingTelegrambot.service.SendBotMessageService;
 import com.github.roveraven.TrainingTelegrambot.service.TelegramUserService;
 import org.telegram.telegrambots.meta.api.objects.Update;
+
+import static com.github.roveraven.TrainingTelegrambot.command.CommandUtils.*;
 /**
  * * Stop {@link Command}.
  */
@@ -18,8 +20,9 @@ public class StopCommand implements Command{
 
     @Override
     public void execute(Update update) {
-        sendBotMessageService.sendMessage(update.getMessage().getChatId(), STOP_MESSAGE);
-        telegramUserService.findByChatId(update.getMessage().getChatId())
+        Long chatId = getChatId(update);
+        sendBotMessageService.sendMessage(chatId, STOP_MESSAGE);
+        telegramUserService.findByChatId(chatId)
                 .ifPresent(
                         user -> {
                             user.setActive(false);

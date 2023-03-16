@@ -15,6 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.util.List;
 
 import static com.github.roveraven.TrainingTelegrambot.command.CommandName.NO;
+import static com.github.roveraven.TrainingTelegrambot.command.CommandUtils.*;
 
 @Component
 public class RRTelegramBot extends TelegramLongPollingBot {
@@ -45,8 +46,8 @@ public class RRTelegramBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         if(update.hasMessage() && update.getMessage().hasText()) {
-            String message = update.getMessage().getText().trim();
-            String user = update.getMessage().getFrom().getUserName();
+            String message = getText(update).trim();
+            String user = getUserName(update);
             if(message.startsWith(COMMAND_PREFIX)) {
                 String commandIdentifier = message.split(" ")[0].toLowerCase();
                 commandContainer.findCommand(commandIdentifier, user).execute(update);

@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.github.roveraven.TrainingTelegrambot.command.CommandName.DELETE_GROUP_SUB;
+import static com.github.roveraven.TrainingTelegrambot.command.TestUtils.*;
+import static com.github.roveraven.TrainingTelegrambot.command.CommandUtils.*;
 @DisplayName("Unit-level testing for DeleteGroupSubCommand")
 class DeleteGroupSubCommandTest {
     SendBotMessageService sendBotMessageService;
@@ -36,7 +38,7 @@ class DeleteGroupSubCommandTest {
         //given
         Long chatId = 17687L;
         Integer groupId = 8;
-        Update update = TestUtils.getUpdate(DELETE_GROUP_SUB.getCommandName()+ " 8", chatId);
+        Update update = getUpdate(DELETE_GROUP_SUB.getCommandName()+ " 8", chatId);
 
         Mockito.when(telegramUserService.findByChatId(chatId)).thenReturn(Optional.empty());
         String expectedMessage = "Group with this Id not found";
@@ -50,15 +52,15 @@ class DeleteGroupSubCommandTest {
     @Test
     public void shouldProperlyDeleteGroupSub(){
         //given
-        Update update = TestUtils.getUpdate(DELETE_GROUP_SUB.getCommandName()+ " 8", 17687L);
+        Update update = getUpdate(DELETE_GROUP_SUB.getCommandName()+ " 8", 17687L);
 
         List<TelegramUser> users = new ArrayList<>();
-        TelegramUser user1 = TestUtils.getUser(17687L, true, new ArrayList<>());
+        TelegramUser user1 = getUser(17687L, true, new ArrayList<>());
         users.add(user1);
-        TelegramUser user2 = TestUtils.getUser(17L, true, new ArrayList<>());
+        TelegramUser user2 = getUser(17L, true, new ArrayList<>());
         users.add(user2);
 
-        GroupSub groupSub = TestUtils.getGroupSub(8, "g234");
+        GroupSub groupSub = getGroupSub(8, "g234");
         groupSub.setUsers(users);
 
         Mockito.when(groupSubService.findById(8)).thenReturn(Optional.of(groupSub));
@@ -71,17 +73,17 @@ class DeleteGroupSubCommandTest {
         //then
         users.remove(user1);
         Mockito.verify(groupSubService).save(groupSub);
-        Mockito.verify(sendBotMessageService).sendMessage(update.getMessage().getChatId(), completeMessage );
+        Mockito.verify(sendBotMessageService).sendMessage(getChatId(update), completeMessage );
     }
 
     @Test
     public void shouldProperlyReactOnCommandWithoutId() {
         //given
-        Update update = TestUtils.getUpdate(DELETE_GROUP_SUB.getCommandName(), 17687L);
+        Update update = getUpdate(DELETE_GROUP_SUB.getCommandName(), 17687L);
         //when
         command.execute(update);
         //then
-        Mockito.verify(sendBotMessageService).sendMessage(update.getMessage().getChatId(),
+        Mockito.verify(sendBotMessageService).sendMessage(getChatId(update),
                 "To unsubscribe from group, please, send " +
                 "command like \"\\deletegroupsub N\", where N - group ID");
     }
@@ -89,11 +91,11 @@ class DeleteGroupSubCommandTest {
     @Test
     public void shouldProperlyReactOnInvalidFormatId(){
         //given
-        Update update = TestUtils.getUpdate(DELETE_GROUP_SUB.getCommandName()+ " -2a", 17687L);
+        Update update = getUpdate(DELETE_GROUP_SUB.getCommandName()+ " -2a", 17687L);
         //when
         command.execute(update);
         //then
-        Mockito.verify(sendBotMessageService).sendMessage(update.getMessage().getChatId(),
+        Mockito.verify(sendBotMessageService).sendMessage(getChatId(update),
                 "Wrong format of ID. Id must be integer and positive number");
     }
 }

@@ -1,15 +1,17 @@
 package com.github.roveraven.TrainingTelegrambot.command;
 
-import com.github.roveraven.TrainingTelegrambot.javarushclient.dto.GroupDiscussionInfo;
 import com.github.roveraven.TrainingTelegrambot.repository.entity.GroupSub;
 import com.github.roveraven.TrainingTelegrambot.repository.entity.TelegramUser;
 import com.github.roveraven.TrainingTelegrambot.service.GroupSubService;
 import com.github.roveraven.TrainingTelegrambot.service.SendBotMessageService;
 import com.github.roveraven.TrainingTelegrambot.service.TelegramUserService;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import static org.apache.commons.lang3.StringUtils.isNumeric;
+
 import javax.ws.rs.NotFoundException;
 import java.util.Optional;
+
+import static org.apache.commons.lang3.StringUtils.isNumeric;
+import static com.github.roveraven.TrainingTelegrambot.command.CommandUtils.*;
 
 /**
  * Delete Group subscription {@link Command}.
@@ -27,8 +29,8 @@ public class DeleteGroupSubCommand implements   Command{
 
     @Override
     public void execute(Update update) {
-        String text = update.getMessage().getText();
-        Long chatId = update.getMessage().getChatId();
+        String text = getText(update);
+        Long chatId = getChatId(update);
         if(text.split(" ").length==1) {
             sendBotMessageService.sendMessage(chatId, "To unsubscribe from group, please, send " +
                     "command like \"\\deletegroupsub N\", where N - group ID");

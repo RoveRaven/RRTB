@@ -8,6 +8,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import javax.ws.rs.NotFoundException;
 import java.util.stream.Collectors;
+
+import static com.github.roveraven.TrainingTelegrambot.command.CommandUtils.*;
 /**
  * {@link Command} for getting list of {@link GroupSub}.
  */
@@ -22,9 +24,9 @@ public class ListGroupSubCommand implements Command{
 
     @Override
     public void execute(Update update) {
-        Long chatId = update.getMessage().getChatId();
+        Long chatId = getChatId(update);
         //todo add exception handling
-        TelegramUser user = telegramUserService.findByChatId(update.getMessage().getChatId())
+        TelegramUser user = telegramUserService.findByChatId(chatId)
                 .orElseThrow(NotFoundException::new);
         String message = "Your active subscribes on groups: \n\n";
         String groups = user.getGroupSubs().stream()

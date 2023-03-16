@@ -12,6 +12,8 @@ import java.util.Optional;
 
 import static com.github.roveraven.TrainingTelegrambot.command.CommandName.START;
 import static com.github.roveraven.TrainingTelegrambot.command.StartCommand.START_MESSAGE;
+import static com.github.roveraven.TrainingTelegrambot.command.TestUtils.getUpdate;
+import static com.github.roveraven.TrainingTelegrambot.command.TestUtils.getUser;
 @DisplayName("Unit-level testing for StartCommand")
 class StartCommandTest extends AbstractCommandTest{
 
@@ -33,11 +35,11 @@ class StartCommandTest extends AbstractCommandTest{
     @Test
     public void shouldSetExistingUserActive() {
         //given
-        TelegramUser user = TestUtils.getUser(1L, false, new ArrayList<>());
+        TelegramUser user = getUser(1L, false, new ArrayList<>());
         Mockito.when(telegramUserService.findByChatId(1L)).thenReturn(Optional.of(user));
         Command command = new StartCommand(sendBotMessageService, telegramUserService);
 
-        Update update = TestUtils.getUpdate(START.getCommandName(), 1L);
+        Update update = getUpdate(START.getCommandName(), 1L);
         //when
         command.execute(update);
         //then
