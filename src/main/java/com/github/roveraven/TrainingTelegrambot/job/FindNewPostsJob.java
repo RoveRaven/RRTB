@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.Instant;
 
 /**
  * Job for finding new posts.
@@ -24,11 +23,12 @@ public class FindNewPostsJob {
 
     @Scheduled(fixedRateString ="${bot.recountNewPostFixedRate}")
     public void findNewPosts() {
-        LocalDateTime start = LocalDateTime.now();
+        Instant start = Instant.now();
         log.info("Find new posts job started.");
         findNewPostService.findNewPosts();
-        LocalDateTime end = LocalDateTime.now();
-        log.info("Find new posts job finished. Took seconds: {}",
-                end.toEpochSecond(ZoneOffset.UTC)- start.toEpochSecond(ZoneOffset.UTC));
+        Instant end = Instant.now();
+
+        log.info("Find new posts job finished. Took milliseconds: {}",
+                end.toEpochMilli()-start.toEpochMilli());
     }
 }

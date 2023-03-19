@@ -6,9 +6,11 @@ import com.github.roveraven.TrainingTelegrambot.javarushclient.dto.GroupRequests
 import com.github.roveraven.TrainingTelegrambot.repository.entity.GroupSub;
 import com.github.roveraven.TrainingTelegrambot.service.GroupSubService;
 import com.github.roveraven.TrainingTelegrambot.service.SendBotMessageService;
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import javax.ws.rs.NotFoundException;
+import java.time.Instant;
 import java.util.stream.Collectors;
 
 import static com.github.roveraven.TrainingTelegrambot.command.CommandName.ADD_GROUP_SUB;
@@ -20,6 +22,7 @@ import static com.github.roveraven.TrainingTelegrambot.command.CommandUtils.*;
 /**
  * Add Group subscription {@link Command}.
  */
+@Slf4j(topic = "AddGroupSubCommand")
 public class AddGroupSubCommand implements Command{
     private  final SendBotMessageService sendBotMessageService;
     private final JavaRushGroupClient javaRushGroupClient;
@@ -34,7 +37,10 @@ public class AddGroupSubCommand implements Command{
 
     @Override
     public void execute(Update update) {
+        Instant start = Instant.now();
+        log.info("Start executing AddGroupSubCommand, chatId = {}, message text = {}", getChatId(update), getText(update));
         if(getText(update).equalsIgnoreCase(ADD_GROUP_SUB.getCommandName())) {
+            log.info("Update included command without arguments");
             sendGroupIdList(getChatId(update));
             return;
         }
@@ -43,6 +49,7 @@ public class AddGroupSubCommand implements Command{
         if (isNumeric(groupId)) {
             GroupDiscussionInfo groupById = javaRushGroupClient.getGroupById(Integer.parseInt(groupId));
             if(isNull(groupById)||isNull(groupById.getId())) {
+                log.warn("GroupSub with id {} not found", groupId);
                 sendGroupNotFound(chatId, groupId);
                 return;
             }
@@ -50,13 +57,17 @@ public class AddGroupSubCommand implements Command{
             try{
                 savedGroupSub = groupSubService.save(chatId, groupById);
                 sendBotMessageService.sendMessage(chatId, String.format("You subscribed to group: %s", savedGroupSub.getTitle()));
+                Instant end = Instant.now();
+                log.info("GroupSub added. Time of executing - {} milliseconds", end.toEpochMilli()-start.toEpochMilli());
             }
             catch (NotFoundException e) {
+                log.warn("Error on step of saving GroupSub", e);
                     sendBotMessageService.sendMessage(chatId, e.getMessage());
             }
 
         }
         else {
+            log.info("groupId contains not numeric symbols. groupId = {}", groupId);
             sendGroupNotFound(chatId, groupId);
         }
     }
