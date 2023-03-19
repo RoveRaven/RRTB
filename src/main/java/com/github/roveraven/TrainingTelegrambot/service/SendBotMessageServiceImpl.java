@@ -1,6 +1,7 @@
 package com.github.roveraven.TrainingTelegrambot.service;
 
 import com.github.roveraven.TrainingTelegrambot.bot.RRTelegramBot;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -11,6 +12,7 @@ import java.util.List;
 /**
  * Implementation of {@link SendBotMessageService} interface.
  */
+@Slf4j(topic = "SendBotMessageService")
 @Service
 public class SendBotMessageServiceImpl implements  SendBotMessageService{
 
@@ -31,7 +33,7 @@ public class SendBotMessageServiceImpl implements  SendBotMessageService{
             rrTelegramBot.execute(sendMessage);
         }
         catch (TelegramApiException e) {
-            //todo add logging to the project.
+            log.error("TelegramException while trying to send message", e);
             e.printStackTrace();
         }
 

@@ -4,14 +4,17 @@ import com.github.roveraven.TrainingTelegrambot.annotation.AdminCommand;
 import com.github.roveraven.TrainingTelegrambot.javarushclient.dto.StatisticDTO;
 import com.github.roveraven.TrainingTelegrambot.service.SendBotMessageService;
 import com.github.roveraven.TrainingTelegrambot.service.StatisticService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.time.Instant;
 import java.util.stream.Collectors;
 
 import static com.github.roveraven.TrainingTelegrambot.command.CommandUtils.getChatId;
 
 @AdminCommand
+@Slf4j( topic = "StatCommand")
 public class StatCommand implements Command{
     private final SendBotMessageService sendBotMessageService;
     private final StatisticService statisticService;
@@ -32,6 +35,8 @@ public class StatCommand implements Command{
 
     @Override
     public void execute(Update update) {
+        Instant start = Instant.now();
+        log.info("Start executing StatCommand");
         StatisticDTO statisticDTO = statisticService.countBotStatistic();
 
         String groupsInfo = statisticDTO.getGroupStatDTOs().stream()
@@ -45,5 +50,8 @@ public class StatCommand implements Command{
                 statisticDTO.getInactiveUserCount(),
                 statisticDTO.getAverageGroupCountByUser(),
                 groupsInfo));
+        Instant end = Instant.now();
+        log.info("StatCommand successfully completed. Time of executing - {} milliseconds",
+                end.toEpochMilli() - start.toEpochMilli());
     }
 }
