@@ -1,16 +1,13 @@
 package com.github.roveraven.TrainingTelegrambot.repository;
 
 import com.github.roveraven.TrainingTelegrambot.repository.entity.TelegramUser;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
-/**
- * {@link Repository} for handling with {@link TelegramUser} entity.
- */
+import java.util.Optional;
 
-@Repository
-public interface TelegramUserRepository extends JpaRepository<TelegramUser, Long> {
+public interface TelegramUserRepository {
+    TelegramUser save(TelegramUser telegramUser);
+    Optional<TelegramUser> findById(Long id);
     List<TelegramUser> findAllByActiveTrue();
 
     List<TelegramUser> findAllByActiveFalse();

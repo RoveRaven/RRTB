@@ -13,6 +13,7 @@ public class TrainingTelegrambotApplication {
 	public static void main(String[] args) {
 		TimeZone.setDefault(TimeZone.getTimeZone("Europe/Moscow"));
 		SpringApplication.run(TrainingTelegrambotApplication.class, args);
+
 	}
 
 }
