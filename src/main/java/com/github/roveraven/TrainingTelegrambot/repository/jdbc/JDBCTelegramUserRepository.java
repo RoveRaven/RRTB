@@ -17,7 +17,7 @@ import java.util.Optional;
 @Profile("jdbc")
 public class JDBCTelegramUserRepository implements TelegramUserRepository {
     private final String findUserQuery = "SELECT * FROM tg_user WHERE chat_id = ?;";
-    private final String insertUserQuery = "INSERT tg_user(chat_id, active) VALUES (?, ?);";
+    private final String insertUserQuery = "INSERT INTO tg_user(chat_id, active) VALUES (?, ?);";
     private final String updateUserQuery = "UPDATE tg_user SET chat_id = ?, active = ? WHERE chat_id = ?;";
     private final String getGroupSubsQuery = """
             SELECT group_sub_id, title, last_post_id 

@@ -17,7 +17,7 @@ docker-compose stop
 export BOT_NAME=!!!write_your_bot_name_here!!!
 export BOT_TOKEN=!!!write_your_bot_token_here!!!
 export ADMINS=!!!write_admins_usernames_here!!!
-export BOT_DB_USERNAME=prod_rrtb_db_user
+export BOT_DB_USERNAME=rrtb_db_user
 export BOT_DB_PASSWORD=password
 
 # Start new deployment

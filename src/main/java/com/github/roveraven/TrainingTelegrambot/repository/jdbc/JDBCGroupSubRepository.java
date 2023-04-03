@@ -27,7 +27,7 @@ public class JDBCGroupSubRepository implements GroupSubRepository {
                     FROM group_sub LEFT JOIN group_x_user ON id = group_sub_id
                     WHERE id = %d
                     """;
-    private final String insertNewGroupSub = "INSERT group_sub (id, title, last_post_id) VALUES (?, ?, ?)";
+    private final String insertNewGroupSub = "INSERT INTO group_sub (id, title, last_post_id) VALUES (?, ?, ?)";
     private final Connection connection;
     @Autowired
     public JDBCGroupSubRepository(DataSource dataSource) throws SQLException {
@@ -93,7 +93,11 @@ public class JDBCGroupSubRepository implements GroupSubRepository {
                 }
                 for (Long id : ids) {
                     if (!savedIds.contains(id))                         //if usersList in DB don't contain current id - write it in DB
-                        statement.execute(String.format("INSERT group_x_user(group_sub_id, user_id) VALUES (%d, %d)", groupSub.getId(), id.longValue()));
+                        statement.execute(String.format("INSERT INTO group_x_user(group_sub_id, user_id) VALUES (%d, %d)", groupSub.getId(), id.longValue()));
+                }
+                for (Long id: savedIds) {
+                    if(!ids.contains(id))
+                        statement.execute(String.format("DELETE FROM group_x_user WHERE group_sub_id = %d AND user_id = %d", groupSub.getId(), id));
                 }
             connection.commit();
             statement.close();

@@ -1,6 +1,5 @@
 package com.github.roveraven.TrainingTelegrambot.javarushclient;
 
-import com.github.roveraven.TrainingTelegrambot.javarushclient.JavaRushPostClient;
 import com.github.roveraven.TrainingTelegrambot.javarushclient.dto.PostInfo;
 import kong.unirest.GenericType;
 import kong.unirest.Unirest;
@@ -19,14 +18,14 @@ public class JavaRushPostClientImpl implements JavaRushPostClient {
 
     @Override
     public List<PostInfo> findNewPosts(Integer groupId, Integer lastPostId) {
-        List<PostInfo> lastPostsOgGroup = Unirest.get(javaRushApiPostPath)
+        List<PostInfo> lastPostsOnGroup = Unirest.get(javaRushApiPostPath)
                 .queryString("order", "NEW")
                 .queryString("groupKid", groupId)
                 .queryString("limit", 15)
                 .asObject(new GenericType<List<PostInfo>>(){})
                 .getBody();
         List<PostInfo> newPosts = new ArrayList<>();
-        for (PostInfo post : lastPostsOgGroup) {
+        for (PostInfo post : lastPostsOnGroup) {
             if (lastPostId.equals(post.getId())) {
                 return newPosts;
             }

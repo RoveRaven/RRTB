@@ -9,18 +9,19 @@ services:
    environment:
      BOT_NAME: ${BOT_NAME}
      BOT_TOKEN: ${BOT_TOKEN}
+     ADMINS: ${ADMINS}
      BOT_DB_USERNAME: ${BOT_DB_USERNAME}
      BOT_DB_PASSWORD: ${BOT_DB_PASSWORD}
    restart: always
  rrtb-db:
-   image: mysql:8.0.31
+   hostname: rrtb-db-prod
+   image: postgres:15.2-bullseye
    restart: always
    environment:
-     MYSQL_USER: ${BOT_DB_USERNAME}
-     MYSQL_PASSWORD: ${BOT_DB_PASSWORD}
-     MYSQL_DATABASE: 'rrtb_db'
-     MYSQL_ROOT_PASSWORD: 'root'
+     POSTGRES_DB: 'rrtb_db'
+     POSTGRES_USER: ${BOT_DB_USERNAME}
+     POSTGRES_PASSWORD: ${BOT_DB_PASSWORD}
    ports:
-     - '3306:3306'
+     - '5432:5432'
    expose:
-     - '3306'
+     - '5432'
