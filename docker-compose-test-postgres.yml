@@ -1,0 +1,20 @@
+version: '3.1'
+
+services:
+  rrtb-db-test2:
+    image: postgres:15.2-bullseye
+    restart: always
+    environment:
+      POSTGRES_DB: 'dev_rrtb_db'
+      # So you don't have to use root, but you can if you like
+      POSTGRES_USER: 'dev_rrtb_db_user'
+      # You can use whatever password you like
+      POSTGRES_PASSWORD: 'password'
+      # Password for root access
+      #MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '5432:5432'
+    expose:
+      # Opens port 3306 on the container
+      - '5432'

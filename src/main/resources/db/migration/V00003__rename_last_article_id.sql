@@ -1,1 +1,1 @@
-ALTER TABLE group_sub CHANGE COLUMN last_article_id last_post_id INT;
+ALTER TABLE group_sub RENAME last_article_id TO last_post_id;
