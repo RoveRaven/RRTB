@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 /**
  * Implementation of {@link TelegramUserService}.
  */
@@ -22,19 +23,11 @@ public class TelegramUserServiceImpl implements TelegramUserService{
     public void save(TelegramUser telegramUser) {
         telegramUserRepository.save(telegramUser);
     }
-
     @Override
-    public List<TelegramUser> findAllActiveUsers() {
-        return telegramUserRepository.findAllByActiveTrue();
-    }
-
+    public List<TelegramUser> findAllActiveUsers() { return telegramUserRepository.findAllByActiveTrue();}
     @Override
-    public List<TelegramUser> findAllInactiveUsers() {
-        return telegramUserRepository.findAllByActiveFalse();
-    }
-
+    public List<TelegramUser> findAllInactiveUsers() { return telegramUserRepository.findAllByActiveFalse();}
     @Override
-    public Optional<TelegramUser> findByChatId(Long chatId) {
-        return telegramUserRepository.findById(chatId);
-    }
+    public Optional<TelegramUser> findByChatId(Long chatId) {return telegramUserRepository.findById(chatId);}
+
 }

@@ -10,12 +10,13 @@ import java.util.List;
 /**
  * {@link Repository} for handling with {@link TelegramUser} entity.
  */
-//@Profile("datajpa")
-    @Profile("!jdbc")
+
+@Profile("!jdbc")
 @Repository
 public interface DataJPATelegramUserRepository extends JpaRepository<TelegramUser, Long>, TelegramUserRepository {
 
     List<TelegramUser> findAllByActiveTrue();
 
     List<TelegramUser> findAllByActiveFalse();
+
 }

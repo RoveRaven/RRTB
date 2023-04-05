@@ -17,22 +17,11 @@ import java.util.Optional;
 @Profile("jdbc")
 public class JDBCTelegramUserRepository implements TelegramUserRepository {
     private final String findUserQuery = "SELECT * FROM tg_user WHERE chat_id = ?;";
-    private final String insertUserQuery = "INSERT INTO tg_user(chat_id, active) VALUES (?, ?);";
-    private final String updateUserQuery = "UPDATE tg_user SET chat_id = ?, active = ? WHERE chat_id = ?;";
-    private final String getGroupSubsQuery = """
-            SELECT group_sub_id, title, last_post_id 
-            FROM group_x_user JOIN group_sub ON group_sub.id = group_x_user.group_sub_id  
-            WHERE user_id = ?""";
-    private final String getUsersWithGroupsQuery = """
-            SELECT chat_id, active, group_sub_id, title, last_post_id 
-            FROM tg_user JOIN group_x_user ON chat_id=user_id JOIN group_sub ON group_sub.id = group_x_user.group_sub_id 
-            ORDER BY chat_id""";
     private final Connection connection;
     @Autowired
     public JDBCTelegramUserRepository(DataSource dataSource) throws SQLException {
         connection = dataSource.getConnection();
     }
-
 
     public TelegramUser save(TelegramUser telegramUser) {
         Long chatId = telegramUser.getChatId();
@@ -41,12 +30,14 @@ public class JDBCTelegramUserRepository implements TelegramUserRepository {
             findStatement.setLong(1, chatId);
             ResultSet userSaved = findStatement.executeQuery();
             if (!userSaved.next()) {                                //user not found in DB, insert new value in table
+                String insertUserQuery = "INSERT INTO tg_user(chat_id, active) VALUES (?, ?);";
                 PreparedStatement insertStatement = connection.prepareStatement(insertUserQuery);
                 insertStatement.setLong(1, chatId);
                 insertStatement.setBoolean(2, telegramUser.isActive());
                 insertStatement.executeUpdate();
                 insertStatement.close();
             } else {                                                //user found, then update activity
+                String updateUserQuery = "UPDATE tg_user SET chat_id = ?, active = ? WHERE chat_id = ?;";
                 PreparedStatement updateStatement = connection.prepareStatement(updateUserQuery);
                 updateStatement.setLong(1, chatId);
                 updateStatement.setBoolean(2, telegramUser.isActive());
@@ -57,7 +48,7 @@ public class JDBCTelegramUserRepository implements TelegramUserRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return findById(telegramUser.getChatId()).get();
+        return findById(telegramUser.getChatId()).orElse(null);
     }
 
         public Optional<TelegramUser> findById(Long id) {
@@ -69,6 +60,10 @@ public class JDBCTelegramUserRepository implements TelegramUserRepository {
                 findStatement.close();
                 return Optional.empty();
             } else {                                                //user found, getting necessary  data from DB
+                String getGroupSubsQuery = """
+                        SELECT group_sub_id, title, last_post_id\s
+                        FROM group_x_user JOIN group_sub ON group_sub.id = group_x_user.group_sub_id\s
+                        WHERE user_id = ?""";
                 PreparedStatement getGroupSubsStatement = connection.prepareStatement(getGroupSubsQuery);
                 getGroupSubsStatement.setLong(1, id);
                 ResultSet groupSubsResultQuery = getGroupSubsStatement.executeQuery();
@@ -102,6 +97,10 @@ public class JDBCTelegramUserRepository implements TelegramUserRepository {
     public List<TelegramUser> findAllUsersDependOnActive(Boolean isActive) {
         try {                                                                   //request all users with GroupSubs from DB
             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String getUsersWithGroupsQuery = """
+                    SELECT chat_id, active, group_sub_id, title, last_post_id\s
+                    FROM tg_user JOIN group_x_user ON chat_id=user_id JOIN group_sub ON group_sub.id = group_x_user.group_sub_id\s
+                    ORDER BY chat_id""";
             ResultSet usersWithGroupsFromDB = statement.executeQuery(getUsersWithGroupsQuery);
             List<TelegramUser> usersList = new ArrayList<>();
             if (!usersWithGroupsFromDB.next()) {                                //if no users returned - return empty List

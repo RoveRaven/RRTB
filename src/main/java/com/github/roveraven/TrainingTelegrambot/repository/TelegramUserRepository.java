@@ -11,4 +11,5 @@ public interface TelegramUserRepository {
     List<TelegramUser> findAllByActiveTrue();
 
     List<TelegramUser> findAllByActiveFalse();
+
 }
