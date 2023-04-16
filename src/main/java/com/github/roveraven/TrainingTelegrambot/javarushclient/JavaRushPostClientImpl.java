@@ -33,4 +33,23 @@ public class JavaRushPostClientImpl implements JavaRushPostClient {
         }
         return newPosts;
     }
+
+    @Override
+    public List<PostInfo> findNewPostsForAllGroups() {
+        return   Unirest.get(javaRushApiPostPath)
+                .queryString("order", "NEW")
+                .queryString("limit", 30)
+                .asObject(new GenericType<List<PostInfo>>() {})
+                .getBody();
+    }
+
+    @Override
+    public List<PostInfo> findAllPosts() {
+        return   Unirest.get(javaRushApiPostPath)
+                .queryString("order", "NEW")
+                .asObject(new GenericType<List<PostInfo>>() {})
+                .getBody();
+    }
+
+
 }

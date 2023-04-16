@@ -5,8 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static java.util.Objects.isNull;
 
@@ -16,9 +16,9 @@ import static java.util.Objects.isNull;
 public class Author {
     @Id
     @Column(name = "author_id")
-    private Integer author_id;
+    private Integer authorId;
     @Column(name = "last_post_id")
-    private Integer last_post_id;
+    private Integer lastPostId;
     @Column(name = "name")
     private String name;
 
@@ -30,10 +30,10 @@ public class Author {
             joinColumns = @JoinColumn(name = "author_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<TelegramUser> users2;
+    private Set<TelegramUser> users2;
     public void addUser(TelegramUser telegramUser) {
         if (isNull(users2)) {
-            users2 = new ArrayList<>();
+            users2 = new HashSet<>();
         }
         users2.add(telegramUser);
     }

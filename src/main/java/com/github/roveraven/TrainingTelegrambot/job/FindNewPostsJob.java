@@ -25,9 +25,10 @@ public class FindNewPostsJob {
     public void findNewPosts() {
         Instant start = Instant.now();
         log.info("Find new posts job started.");
-        findNewPostService.findNewPosts();
-        Instant end = Instant.now();
 
+        findNewPostService.findNewPosts();
+
+        Instant end = Instant.now();
         log.info("Find new posts job finished. Took milliseconds: {}",
                 end.toEpochMilli()-start.toEpochMilli());
     }

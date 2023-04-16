@@ -1,5 +1,8 @@
 #RELEASE NOTES
 
+##V 1.2.0
+* Added ability to subscribe on author
+
 ##V 1.1.0
 * DB changed from MySQL to PostgreSql
 * added JDBC variant of repository layer

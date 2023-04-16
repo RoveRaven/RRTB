@@ -61,7 +61,7 @@ public class DeleteGroupSubCommand implements   Command{
                 sendBotMessageService.sendMessage(chatId, "Group with this Id not found");
             }
         } else {
-            log.info("GroupIf contains not numeric symbols");
+            log.info("GroupId contains not numeric symbols");
             sendBotMessageService.sendMessage(chatId, "Wrong format of ID. Id must be integer and positive number");
         }
             }

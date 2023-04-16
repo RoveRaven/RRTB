@@ -11,8 +11,11 @@ public enum CommandName {
     STAT("/stat"),
     ADD_GROUP_SUB("/addgroupsub"),
     LIST_GROUP_SUB("/listgroupsub"),
+    LIST_AUTHOR_SUB("/listauthorsub"),
     DELETE_GROUP_SUB("/deletegroupsub"),
-    ADMIN_HELP("/ahelp");
+    ADD_AUTHOR_SUB("/addauthorsub"),
+    ADMIN_HELP("/ahelp"),
+    DELETE_AUTHOR_SUB("/deleteauthorsub");
 
 
 

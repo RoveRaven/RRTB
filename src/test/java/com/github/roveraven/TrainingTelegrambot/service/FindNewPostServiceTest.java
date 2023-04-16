@@ -2,6 +2,7 @@ package com.github.roveraven.TrainingTelegrambot.service;
 
 import com.github.roveraven.TrainingTelegrambot.command.TestUtils;
 import com.github.roveraven.TrainingTelegrambot.javarushclient.JavaRushPostClient;
+import com.github.roveraven.TrainingTelegrambot.javarushclient.dto.AuthorInfo;
 import com.github.roveraven.TrainingTelegrambot.javarushclient.dto.PostInfo;
 import com.github.roveraven.TrainingTelegrambot.repository.entity.GroupSub;
 import com.github.roveraven.TrainingTelegrambot.repository.entity.TelegramUser;
@@ -16,6 +17,7 @@ import java.util.List;
 
 class FindNewPostServiceTest {
     private GroupSubService groupSubService;
+    private AuthorService authorService;
     private JavaRushPostClient javaRushPostClient;
     private SendBotMessageService sendBotMessageService;
     private FindNewPostService findNewPostService;
@@ -23,9 +25,10 @@ class FindNewPostServiceTest {
     @BeforeEach
     public void init() {
         groupSubService = Mockito.mock(GroupSubService.class);
+        authorService = Mockito.mock(AuthorService.class);
         javaRushPostClient = Mockito.mock(JavaRushPostClient.class);
         sendBotMessageService = Mockito.mock(SendBotMessageService.class);
-        findNewPostService = new FindNewPostServiceImpl(groupSubService,javaRushPostClient, sendBotMessageService);
+        findNewPostService = new FindNewPostServiceImpl(groupSubService, authorService, javaRushPostClient, sendBotMessageService);
     }
 
     @Test
@@ -44,11 +47,13 @@ class FindNewPostServiceTest {
         post1.setTitle("post1");
         post1.setDescription("First Post");
         post1.setKey("Link1");
+        post1.setAuthorInfo(new AuthorInfo());
         PostInfo post2 = new PostInfo();
         post2.setId(613);
         post2.setTitle("post2");
         post2.setDescription("Second Post");
         post2.setKey("Link2");
+        post2.setAuthorInfo(new AuthorInfo());
         List<PostInfo> postInfoList = new ArrayList<>();
         postInfoList.add(post1);
         postInfoList.add(post2);
@@ -57,17 +62,21 @@ class FindNewPostServiceTest {
         List<String> messages = new ArrayList<>();
         messages.add("""
                 There is new post:\s
-                  <b>post1</b>\s
-                 in group:  <b>g1</b>
-                <b>Description:  </b> First Post\s
+                 <b>post1</b>\s
+                 
+                In <b>group</b>:  <b>g1</b>
+                From author: <b>null</b> with ID: <b>null</b>
+                <b>Description:  </b>First Post\s
 
 
                 <b>Reference: </b> https://javarush.com/api/1.0/rest/posts/Link1""");
         messages.add("""
                 There is new post:\s
-                  <b>post2</b>\s
-                 in group:  <b>g1</b>
-                <b>Description:  </b> Second Post\s
+                 <b>post2</b>\s
+                 
+                In <b>group</b>:  <b>g1</b>
+                From author: <b>null</b> with ID: <b>null</b>
+                <b>Description:  </b>Second Post\s
 
 
                 <b>Reference: </b> https://javarush.com/api/1.0/rest/posts/Link2""");

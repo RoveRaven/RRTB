@@ -1,8 +1,10 @@
 package com.github.roveraven.TrainingTelegrambot.bot;
 
 import com.github.roveraven.TrainingTelegrambot.javarushclient.JavaRushGroupClient;
+import com.github.roveraven.TrainingTelegrambot.javarushclient.JavaRushPostClient;
 import com.github.roveraven.TrainingTelegrambot.javarushclient.dto.GroupDiscussionInfo;
 import com.github.roveraven.TrainingTelegrambot.repository.entity.GroupSub;
+import com.github.roveraven.TrainingTelegrambot.service.AuthorService;
 import com.github.roveraven.TrainingTelegrambot.service.GroupSubService;
 import com.github.roveraven.TrainingTelegrambot.service.StatisticService;
 import com.github.roveraven.TrainingTelegrambot.service.TelegramUserService;
@@ -20,6 +22,7 @@ import java.util.Optional;
 class RRTelegramBotTest {
     private RRTelegramBot rrTelegramBot;
     private GroupSubService groupSubService;
+    private AuthorService authorService;
     GroupDiscussionInfo groupDiscussionInfo= new GroupDiscussionInfo();
     String command = "/addgroupsub 16";
     String userName = "userName";
@@ -29,15 +32,17 @@ class RRTelegramBotTest {
     public void init(){
         TelegramUserService telegramUserService = Mockito.mock(TelegramUserService.class);
         JavaRushGroupClient javaRushGroupClient = Mockito.mock(JavaRushGroupClient.class);
+        JavaRushPostClient javaRushPostClient = Mockito.mock(JavaRushPostClient.class);
         Mockito.when(javaRushGroupClient.getGroupById(16)).thenReturn(groupDiscussionInfo);
         groupSubService = Mockito.mock(GroupSubService.class);
         Mockito.when(groupSubService.findById(16)).thenReturn(Optional.of(new GroupSub()));
         Mockito.when(groupSubService.save(1L, groupDiscussionInfo)).thenReturn(new GroupSub());
         StatisticService statisticService = Mockito.mock(StatisticService.class);
         Mockito.when(user.getUserName()).thenReturn(userName);
+        //TODO add authorService mock
 
         rrTelegramBot = new RRTelegramBot(telegramUserService, javaRushGroupClient, groupSubService,
-                statisticService, Collections.singletonList("userName"));
+                statisticService, authorService, javaRushPostClient, Collections.singletonList("userName"));
         groupDiscussionInfo.setId(16);
 
 
