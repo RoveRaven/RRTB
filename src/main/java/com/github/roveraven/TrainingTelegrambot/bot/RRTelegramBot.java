@@ -2,10 +2,8 @@ package com.github.roveraven.TrainingTelegrambot.bot;
 
 import com.github.roveraven.TrainingTelegrambot.command.CommandContainer;
 import com.github.roveraven.TrainingTelegrambot.javarushclient.JavaRushGroupClient;
-import com.github.roveraven.TrainingTelegrambot.service.GroupSubService;
-import com.github.roveraven.TrainingTelegrambot.service.SendBotMessageServiceImpl;
-import com.github.roveraven.TrainingTelegrambot.service.StatisticService;
-import com.github.roveraven.TrainingTelegrambot.service.TelegramUserService;
+import com.github.roveraven.TrainingTelegrambot.javarushclient.JavaRushPostClient;
+import com.github.roveraven.TrainingTelegrambot.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -27,10 +25,14 @@ public class RRTelegramBot extends TelegramLongPollingBot {
     private final CommandContainer commandContainer;
     @Autowired
     public RRTelegramBot(TelegramUserService telegramUserService,
-                         JavaRushGroupClient javaRushGroupClient, GroupSubService groupSubService, StatisticService statisticService,
+                         JavaRushGroupClient javaRushGroupClient,
+                         GroupSubService groupSubService,
+                         StatisticService statisticService,
+                         AuthorService authorService,
+                         JavaRushPostClient javaRushPostClient,
                          @Value("#{'${bot.admins}'.split(',')}") List<String> admins) {
         this.commandContainer = new CommandContainer(new SendBotMessageServiceImpl(this), telegramUserService,
-                javaRushGroupClient, groupSubService, statisticService, admins);
+                javaRushGroupClient, groupSubService, statisticService, authorService, javaRushPostClient, admins);
     }
 
     @Override

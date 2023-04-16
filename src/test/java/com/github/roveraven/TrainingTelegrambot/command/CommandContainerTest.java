@@ -1,6 +1,7 @@
 package com.github.roveraven.TrainingTelegrambot.command;
 
 import com.github.roveraven.TrainingTelegrambot.javarushclient.JavaRushGroupClient;
+import com.github.roveraven.TrainingTelegrambot.javarushclient.JavaRushPostClient;
 import com.github.roveraven.TrainingTelegrambot.service.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,8 +24,10 @@ class CommandContainerTest {
         JavaRushGroupClient javaRushGroupClient = Mockito.mock(JavaRushGroupClient.class);
         GroupSubService groupSubService = Mockito.mock(GroupSubService.class);
         StatisticService statisticService = new StatisticServiceImpl(groupSubService, telegramUserService);
+        AuthorService authorService = Mockito.mock(AuthorService.class);
+        JavaRushPostClient javaRushPostClient = Mockito.mock(JavaRushPostClient.class);
         commandContainer = new CommandContainer(sendBotMessageService, telegramUserService,
-                javaRushGroupClient, groupSubService, statisticService, Collections.singletonList("admin"));
+                javaRushGroupClient, groupSubService, statisticService, authorService, javaRushPostClient, Collections.singletonList("admin"));
     }
 
     @Test

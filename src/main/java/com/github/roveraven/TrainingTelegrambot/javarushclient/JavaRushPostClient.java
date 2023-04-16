@@ -17,4 +17,6 @@ public interface JavaRushPostClient {
      * @return the collection of the new {@link PostInfo}.
      */
     List<PostInfo> findNewPosts(Integer groupId, Integer lastPostId);
+    List<PostInfo> findNewPostsForAllGroups();
+    List<PostInfo> findAllPosts();
 }

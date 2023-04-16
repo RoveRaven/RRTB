@@ -1,7 +1,9 @@
 package com.github.roveraven.TrainingTelegrambot.javarushclient.dto;
+
 /**
  * DTO, which represents base author information.
  */
+
 public class AuthorInfo {
     private String city;
     private String companyUrl;
@@ -23,4 +25,11 @@ public class AuthorInfo {
     private String stackoverflowUrl;
     private String twitterUrl;
     private Integer userId;
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
 }

@@ -1,10 +1,8 @@
 package com.github.roveraven.TrainingTelegrambot.command;
 import com.github.roveraven.TrainingTelegrambot.annotation.AdminCommand;
 import com.github.roveraven.TrainingTelegrambot.javarushclient.JavaRushGroupClient;
-import com.github.roveraven.TrainingTelegrambot.service.GroupSubService;
-import com.github.roveraven.TrainingTelegrambot.service.SendBotMessageService;
-import com.github.roveraven.TrainingTelegrambot.service.StatisticService;
-import com.github.roveraven.TrainingTelegrambot.service.TelegramUserService;
+import com.github.roveraven.TrainingTelegrambot.javarushclient.JavaRushPostClient;
+import com.github.roveraven.TrainingTelegrambot.service.*;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.List;
@@ -17,8 +15,14 @@ public class CommandContainer {
     private final Command UNKNOWN_COMMAND;
     private final List<String> admins;
 
-    public CommandContainer(SendBotMessageService sendBotMessageService, TelegramUserService telegramUserService,
-                            JavaRushGroupClient javaRushGroupClient, GroupSubService groupSubService, StatisticService statisticService, List<String> admins) {
+    public CommandContainer(SendBotMessageService sendBotMessageService,
+                            TelegramUserService telegramUserService,
+                            JavaRushGroupClient javaRushGroupClient,
+                            GroupSubService groupSubService,
+                            StatisticService statisticService,
+                            AuthorService authorService,
+                            JavaRushPostClient javaRushPostClient,
+                            List<String> admins) {
         this.admins = admins;
         COMMAND_MAP = ImmutableMap.<String, Command>builder()
                 .put(START.getCommandName(), new StartCommand(sendBotMessageService, telegramUserService))
@@ -30,6 +34,9 @@ public class CommandContainer {
                 .put(LIST_GROUP_SUB.getCommandName(), new ListGroupSubCommand(telegramUserService, sendBotMessageService))
                 .put(DELETE_GROUP_SUB.getCommandName(), new DeleteGroupSubCommand(sendBotMessageService, groupSubService, telegramUserService))
                 .put(ADMIN_HELP.getCommandName(), new AdminHelpCommand(sendBotMessageService))
+                .put(ADD_AUTHOR_SUB.getCommandName(), new AddAuthorSubCommand(sendBotMessageService, authorService, javaRushPostClient))
+                .put(DELETE_AUTHOR_SUB.getCommandName(), new DeleteAuthorSubCommand(sendBotMessageService, authorService, telegramUserService))
+                .put(LIST_AUTHOR_SUB.getCommandName(), new ListAuthorSubCommand(telegramUserService, sendBotMessageService))
                 .build();
         UNKNOWN_COMMAND = new UnknownCommand(sendBotMessageService);
     }
