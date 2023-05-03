@@ -31,5 +31,17 @@ public class FindNewPostsJob {
         Instant end = Instant.now();
         log.info("Find new posts job finished. Took milliseconds: {}",
                 end.toEpochMilli()-start.toEpochMilli());
+        /*
+        try {
+            File file = new File("/tmp/bot/example.txt");
+            FileWriter fileWriter = new FileWriter(file, true);
+            fileWriter.write("hello_backup!"+ LocalDateTime.now() +"\n");
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        */
     }
 }

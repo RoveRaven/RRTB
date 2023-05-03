@@ -1,11 +1,21 @@
-version: '3.1'
+version: '3.4'
 
+
+volumes:
+  rrtb_bot_volume:
+    name: bot_volume
+  rrtb_db_volume:
+    name: db_volume
 services:
  rrtb-bot:
    depends_on:
      - rrtb-db
    build:
      context: .
+   user:
+     root
+   volumes:
+       - rrtb_bot_volume:/tmp/bot
    environment:
      BOT_NAME: ${BOT_NAME}
      BOT_TOKEN: ${BOT_TOKEN}
@@ -17,10 +27,14 @@ services:
    hostname: rrtb-db-prod
    image: postgres:15.2-bullseye
    restart: always
+   user: root
+   volumes:
+     - rrtb_db_volume:/var/lib/postgresql/data
    environment:
      POSTGRES_DB: 'rrtb_db'
      POSTGRES_USER: ${BOT_DB_USERNAME}
      POSTGRES_PASSWORD: ${BOT_DB_PASSWORD}
+     PGDATA: /var/lib/postgresql/data/pgdata
    ports:
      - '5432:5432'
    expose:

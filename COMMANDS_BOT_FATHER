@@ -1,6 +1,9 @@
 start - start/restart work with bot
 stop - stop bot's work
 addgroupsub - subscribe on articles group
+addauthorsub - subscribe on author
 deletegroupsub - unsubscribe from group
+deleteauthorsub - unsubscribe from author
 listgroupsub - list of groups you subscribed
+listauthorsub - list of authors you subscribed
 help - get help about  how bot work

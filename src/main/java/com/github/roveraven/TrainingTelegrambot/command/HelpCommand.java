@@ -19,12 +19,22 @@ public class HelpCommand implements Command{
                     %s - stop bot
                     %s - get help about bots's work
                     %s - subscribe on group
-                    %s - list of your subscribes
-                    %s - delete subscribe
+                    %s - list of your group subscribes
+                    %s - delete group subscribe
+                    %s - subscribe on author
+                    %s - list of you author subscribes
+                    %s - delete author subscribe
                     """,
-            START.getCommandName(), STOP.getCommandName(),
-            HELP.getCommandName(), ADD_GROUP_SUB.getCommandName(), LIST_GROUP_SUB.getCommandName(),
-            DELETE_GROUP_SUB.getCommandName());
+            START.getCommandName(),
+            STOP.getCommandName(),
+            HELP.getCommandName(),
+            ADD_GROUP_SUB.getCommandName(),
+            LIST_GROUP_SUB.getCommandName(),
+            DELETE_GROUP_SUB.getCommandName(),
+            ADD_AUTHOR_SUB.getCommandName(),
+            LIST_AUTHOR_SUB.getCommandName(),
+            DELETE_AUTHOR_SUB.getCommandName()
+    );
 
     public HelpCommand(SendBotMessageService sendBotMessageService) {
         this.sendBotMessageService = sendBotMessageService;
