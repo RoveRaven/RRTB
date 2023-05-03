@@ -1,5 +1,8 @@
 #RELEASE NOTES
 
+##V 1.2.1
+* DB persistence ensured by connecting Docker Volumes, fixed some bugs in commands.
+
 ##V 1.2.0
 * Added ability to subscribe on author
 
