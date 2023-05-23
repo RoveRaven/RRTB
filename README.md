@@ -1,5 +1,6 @@
 # RRTB
 Training Telegram Bot
+forked from https://github.com/javarushcommunity/javarush-telegrambot
 
 ## Deployment
 Deployment process as easy as possible:
